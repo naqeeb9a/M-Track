@@ -1,7 +1,10 @@
+import 'package:courierapp/Routes/routes.dart';
 import 'package:courierapp/Screens/home_page.dart';
 import 'package:courierapp/Screens/registration.dart';
 import 'package:courierapp/configs.dart/configs.dart';
 import 'package:flutter/material.dart';
+
+import '../DynamicSizes/dynamic_sizes.dart';
 
 class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);
@@ -31,7 +34,7 @@ class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
                     horizontal: DynamicSize().dynamicWidth(context, 0.05)),
                 child: Column(
                   children: [
-                    DynamicSize().heigthBox(context, 0.02),
+                    DynamicSize().heightBox(context, 0.02),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: CircleAvatar(
@@ -44,7 +47,7 @@ class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                     ),
-                    DynamicSize().heigthBox(context, 0.03),
+                    DynamicSize().heightBox(context, 0.03),
                     Row(
                       children: [
                         Expanded(
@@ -67,7 +70,7 @@ class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
                                     DynamicSize().dynamicWidth(context, 0.06)),
                                 child: Column(
                                   children: [
-                                    DynamicSize().heigthBox(context, 0.02),
+                                    DynamicSize().heightBox(context, 0.02),
                                     Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
@@ -76,7 +79,7 @@ class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
                                               fontSize: DynamicSize()
                                                   .dynamicWidth(context, 0.04)),
                                         )),
-                                    DynamicSize().heigthBox(context, 0.03),
+                                    DynamicSize().heightBox(context, 0.03),
                                     Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
@@ -86,15 +89,15 @@ class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
                                               fontSize: DynamicSize()
                                                   .dynamicWidth(context, 0.05)),
                                         )),
-                                    DynamicSize().heigthBox(context, 0.03),
+                                    DynamicSize().heightBox(context, 0.03),
                                     colorfulButton(context, "Login", themeColor,
                                         Colors.transparent, FontWeight.normal),
                                   ],
                                 ),
                               ),
-                              DynamicSize().heigthBox(context, 0.17),
+                              DynamicSize().heightBox(context, 0.17),
                               const Text("Don't Have an Account?"),
-                              DynamicSize().heigthBox(context, 0.02),
+                              DynamicSize().heightBox(context, 0.02),
                               colorfulButton(
                                   context,
                                   "SignUp",

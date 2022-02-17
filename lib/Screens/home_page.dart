@@ -5,6 +5,8 @@ import 'package:courierapp/Screens/person.dart';
 import 'package:courierapp/configs.dart/configs.dart';
 import 'package:flutter/material.dart';
 
+import '../DynamicSizes/dynamic_sizes.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 

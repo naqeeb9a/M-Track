@@ -1,6 +1,8 @@
 import 'package:courierapp/configs.dart/configs.dart';
 import 'package:flutter/material.dart';
 
+import '../DynamicSizes/dynamic_sizes.dart';
+
 class NewOrders extends StatefulWidget {
   const NewOrders({Key? key}) : super(key: key);
 
@@ -19,9 +21,9 @@ class _NewOrdersState extends State<NewOrders>
       body: Column(
         children: [
           topBar(context, "New Order type"),
-          DynamicSize().heigthBox(context, 0.01),
+          DynamicSize().heightBox(context, 0.01),
           cards(context, Icons.book, "Book a courier", false),
-          DynamicSize().heigthBox(context, 0.01),
+          DynamicSize().heightBox(context, 0.01),
           cards(context, Icons.location_city, "Hyperlocal", false)
         ],
       ),

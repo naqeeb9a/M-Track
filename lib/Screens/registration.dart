@@ -3,6 +3,8 @@ import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/configs.dart/configs.dart';
 import 'package:flutter/material.dart';
 
+import '../DynamicSizes/dynamic_sizes.dart';
+
 class Registration extends StatelessWidget {
   const Registration({Key? key}) : super(key: key);
 
@@ -20,7 +22,7 @@ class Registration extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 topBar(context, "Registration"),
-                DynamicSize().heigthBox(context, 0.05),
+                DynamicSize().heightBox(context, 0.05),
                 Padding(
                   padding: EdgeInsets.only(
                       left: DynamicSize().dynamicWidth(context, 0.05)),
@@ -43,23 +45,23 @@ class Registration extends StatelessWidget {
                     ),
                   ),
                 ),
-                DynamicSize().heigthBox(context, 0.05),
+                DynamicSize().heightBox(context, 0.05),
                 registerInputField(context, "First name"),
                 registerInputField(context, "Last name"),
                 registerInputField(context, "Email"),
                 registerInputField(context, "Password"),
                 registerInputField(context, "Mobile number"),
-                DynamicSize().heigthBox(context, 0.05),
+                DynamicSize().heightBox(context, 0.05),
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: DynamicSize().dynamicWidth(context, 0.05)),
                   child: colorfulButton(context, "Register", themeColor,
                       themeColor, FontWeight.bold),
                 ),
-                DynamicSize().heigthBox(context, 0.02),
+                DynamicSize().heightBox(context, 0.02),
                 multiColorText(context, "By clicking Register I agree with ",
                     "terms, Conditions and Agreements"),
-                DynamicSize().heigthBox(context, 0.02),
+                DynamicSize().heightBox(context, 0.02),
               ],
             ),
           ),
@@ -115,7 +117,7 @@ Widget registerInputField(context, text) {
               enabledBorder: UnderlineInputBorder(
                   borderSide:
                       BorderSide(color: Colors.black.withOpacity(0.1))))),
-      DynamicSize().heigthBox(context, 0.01),
+      DynamicSize().heightBox(context, 0.01),
     ],
   );
 }
