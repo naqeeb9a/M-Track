@@ -1,4 +1,5 @@
-import 'package:courierapp/DynamicSizes/dynamic_sizes.dart';
+
+import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ Widget text(context, text, size, color,
     overflow: TextOverflow.ellipsis,
     style: TextStyle(
       color: color,
-      fontSize: DynamicSize().dynamicWidth(context, size),
+      fontSize: CustomSizes().dynamicWidth(context, size),
       fontWeight: bold == true ? FontWeight.w600 : FontWeight.normal,
     ),
   );

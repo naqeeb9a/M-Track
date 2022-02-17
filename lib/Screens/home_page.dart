@@ -2,10 +2,12 @@ import 'package:courierapp/Screens/orders.dart';
 
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Screens/person.dart';
-import 'package:courierapp/configs.dart/configs.dart';
+
+import 'package:courierapp/utils/config.dart';
+import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 
-import '../DynamicSizes/dynamic_sizes.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             });
           },
           unselectedLabelStyle: const TextStyle(color: Colors.grey),
-          selectedItemColor: themeColor,
+          selectedItemColor: CustomColors.customYellow,
           unselectedItemColor: Colors.grey,
           showUnselectedLabels: true,
           items: const [
@@ -82,8 +84,8 @@ colorfulButton(context, text, buttonColor, borderColor, fontWeight,
                 border: Border.all(width: 1.5, color: borderColor),
                 color: buttonColor,
                 borderRadius: BorderRadius.circular(
-                    DynamicSize().dynamicWidth(context, 0.1))),
-            padding: EdgeInsets.all(DynamicSize().dynamicWidth(context, 0.035)),
+                    CustomSizes().dynamicWidth(context, 0.1))),
+            padding: EdgeInsets.all(CustomSizes().dynamicWidth(context, 0.035)),
             child: Center(
                 child: Text(
               text,

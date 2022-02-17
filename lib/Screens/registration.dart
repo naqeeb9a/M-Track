@@ -1,9 +1,9 @@
 import 'package:courierapp/Screens/home_page.dart';
 import 'package:courierapp/Screens/new_orders.dart';
-import 'package:courierapp/configs.dart/configs.dart';
+import 'package:courierapp/Widgets/text_widget.dart';
+import 'package:courierapp/utils/config.dart';
+import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
-
-import '../DynamicSizes/dynamic_sizes.dart';
 
 class Registration extends StatelessWidget {
   const Registration({Key? key}) : super(key: key);
@@ -22,46 +22,50 @@ class Registration extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 topBar(context, "Registration"),
-                DynamicSize().heightBox(context, 0.05),
+                CustomSizes().heightBox(context, 0.05),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: DynamicSize().dynamicWidth(context, 0.05)),
+                      left: CustomSizes().dynamicWidth(context, 0.05)),
                   child: Text(
                     "Let's Get Started",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: DynamicSize().dynamicWidth(context, 0.05),
+                      fontSize: CustomSizes().dynamicWidth(context, 0.05),
                     ),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: DynamicSize().dynamicWidth(context, 0.05)),
+                      left: CustomSizes().dynamicWidth(context, 0.05)),
                   child: Text(
                     "Fill the form to Create your new account",
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: DynamicSize().dynamicWidth(context, 0.03),
+                      fontSize: CustomSizes().dynamicWidth(context, 0.03),
                     ),
                   ),
                 ),
-                DynamicSize().heightBox(context, 0.05),
+                CustomSizes().heightBox(context, 0.05),
                 registerInputField(context, "First name"),
                 registerInputField(context, "Last name"),
                 registerInputField(context, "Email"),
                 registerInputField(context, "Password"),
                 registerInputField(context, "Mobile number"),
-                DynamicSize().heightBox(context, 0.05),
+                CustomSizes().heightBox(context, 0.05),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: DynamicSize().dynamicWidth(context, 0.05)),
-                  child: colorfulButton(context, "Register", themeColor,
-                      themeColor, FontWeight.bold),
+                      horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+                  child: colorfulButton(
+                      context,
+                      "Register",
+                      CustomColors.customYellow,
+                      CustomColors.customYellow,
+                      FontWeight.bold),
                 ),
-                DynamicSize().heightBox(context, 0.02),
+                CustomSizes().heightBox(context, 0.02),
                 multiColorText(context, "By clicking Register I agree with ",
                     "terms, Conditions and Agreements"),
-                DynamicSize().heightBox(context, 0.02),
+                CustomSizes().heightBox(context, 0.02),
               ],
             ),
           ),
@@ -72,52 +76,58 @@ class Registration extends StatelessWidget {
 Widget multiColorText(context, text, text1) {
   return Center(
     child: SizedBox(
-      width: DynamicSize().dynamicWidth(context, 0.6),
+      width: CustomSizes().dynamicWidth(context, 0.6),
       child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(children: [
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          children: [
             TextSpan(
                 text: text,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: DynamicSize().dynamicWidth(context, 0.025))),
+                    fontSize: CustomSizes().dynamicWidth(context, 0.025))),
             TextSpan(
                 text: text1,
                 style: TextStyle(
-                    color: themeColor,
+                    color: CustomColors.customYellow,
                     fontWeight: FontWeight.bold,
-                    fontSize: DynamicSize().dynamicWidth(context, 0.025))),
-          ])),
+                    fontSize: CustomSizes().dynamicWidth(context, 0.025))),
+          ],
+        ),
+      ),
     ),
   );
 }
 
-Widget registerInputField(context, text) {
+Widget registerInputField(context, text1) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding:
-            EdgeInsets.only(left: DynamicSize().dynamicWidth(context, 0.05)),
-        child: Text(
-          text,
-          style: TextStyle(
-              color: Colors.grey,
-              fontSize: DynamicSize().dynamicWidth(context, 0.03)),
+          padding:
+              EdgeInsets.only(left: CustomSizes().dynamicWidth(context, 0.05)),
+          child:
+              text(context, text1, 0.03, CustomColors.customGrey, bold: true)),
+      TextFormField(
+        cursorColor: Colors.black,
+        decoration: InputDecoration(
+          focusedBorder: UnderlineInputBorder(
+               borderSide: BorderSide(
+              color: CustomColors.customYellow,
+              width: CustomSizes().dynamicWidth(context, 0.0065),
+            ),
+          ),
+          contentPadding: EdgeInsets.symmetric(
+              horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+          enabledBorder:const  UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: CustomColors.customGrey,
+            ),
+          ),
         ),
       ),
-      TextFormField(
-          cursorColor: Colors.black,
-          decoration: InputDecoration(
-              focusedBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
-              contentPadding: EdgeInsets.symmetric(
-                  horizontal: DynamicSize().dynamicWidth(context, 0.05)),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.black.withOpacity(0.1))))),
-      DynamicSize().heightBox(context, 0.01),
+      CustomSizes().heightBox(context, 0.01),
     ],
   );
 }

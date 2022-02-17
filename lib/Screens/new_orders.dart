@@ -1,7 +1,8 @@
-import 'package:courierapp/configs.dart/configs.dart';
+import 'package:courierapp/Khubaib/book_courier.dart';
+import 'package:courierapp/utils/app_routes.dart';
+import 'package:courierapp/utils/config.dart';
+import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
-
-import '../DynamicSizes/dynamic_sizes.dart';
 
 class NewOrders extends StatefulWidget {
   const NewOrders({Key? key}) : super(key: key);
@@ -21,9 +22,12 @@ class _NewOrdersState extends State<NewOrders>
       body: Column(
         children: [
           topBar(context, "New Order type"),
-          DynamicSize().heightBox(context, 0.01),
-          cards(context, Icons.book, "Book a courier", false),
-          DynamicSize().heightBox(context, 0.01),
+          CustomSizes().heightBox(context, 0.01),
+          InkWell(
+            onTap :()=> CustomRoutes().push(context,const BookCourier()),
+            child: cards(context, Icons.book, "Book a courier", false),
+          ),
+          CustomSizes().heightBox(context, 0.01),
           cards(context, Icons.location_city, "Hyperlocal", false)
         ],
       ),
@@ -31,10 +35,10 @@ class _NewOrdersState extends State<NewOrders>
   }
 }
 
-cards(context, icon, text, check) {
+cards(context, icon, text, check ,{check2 =false}) {
   return Container(
     color: Colors.white,
-    padding: EdgeInsets.all(DynamicSize().dynamicWidth(context, 0.03)),
+    padding: EdgeInsets.all(CustomSizes().dynamicWidth(context, 0.03)),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -42,26 +46,26 @@ cards(context, icon, text, check) {
           children: [
             Container(
               padding:
-                  EdgeInsets.all(DynamicSize().dynamicWidth(context, 0.02)),
+                  EdgeInsets.all(CustomSizes().dynamicWidth(context, 0.02)),
               decoration: BoxDecoration(
                   border: Border.all(
                       color: check == false ? Colors.grey : Colors.transparent,
                       width: check == false ? 1 : 0),
                   borderRadius: BorderRadius.circular(
-                      DynamicSize().dynamicWidth(context, 0.02))),
+                      CustomSizes().dynamicWidth(context, 0.02))),
               child: Icon(
                 icon,
-                color: themeColor,
+                color: CustomColors.customYellow,
               ),
             ),
-            DynamicSize().widthBox(context, 0.03),
+            CustomSizes().widthBox(context, 0.03),
             Text(text)
           ],
         ),
-        const Icon(
+         check2 == true? const Icon(
           Icons.arrow_forward_ios,
-          color: Colors.grey,
-        ),
+          color: Colors.grey, 
+        ) : Container(),
       ],
     ),
   );
@@ -70,22 +74,25 @@ cards(context, icon, text, check) {
 topBar(context, text) {
   return Container(
     padding: EdgeInsets.only(
-      top: DynamicSize().dynamicWidth(context, 0.12),
-      left: DynamicSize().dynamicWidth(context, 0.05),
-      right: DynamicSize().dynamicWidth(context, 0.05),
-      bottom: DynamicSize().dynamicWidth(context, 0.04),
+      top: CustomSizes().dynamicWidth(context, 0.12),
+      left: CustomSizes().dynamicWidth(context, 0.05),
+      right: CustomSizes().dynamicWidth(context, 0.05),
+      bottom: CustomSizes().dynamicWidth(context, 0.04),
     ),
-    color: themeColor,
+    color: CustomColors.customYellow,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CircleAvatar(
-          radius: DynamicSize().dynamicWidth(context, 0.035),
-          backgroundColor: Colors.white.withOpacity(0.3),
-          child: Icon(
-            Icons.arrow_back_ios,
-            size: DynamicSize().dynamicWidth(context, 0.03),
-            color: Colors.white,
+        InkWell(
+          
+          child: CircleAvatar(
+            radius: CustomSizes().dynamicWidth(context, 0.035),
+            backgroundColor: Colors.white.withOpacity(0.3),
+            child: Icon(
+              Icons.arrow_back_ios,
+              size: CustomSizes().dynamicWidth(context, 0.03),
+              color: Colors.white,
+            ),
           ),
         ),
         Align(
@@ -95,11 +102,11 @@ topBar(context, text) {
               style: const TextStyle(fontWeight: FontWeight.bold),
             )),
         CircleAvatar(
-          radius: DynamicSize().dynamicWidth(context, 0.035),
+          radius: CustomSizes().dynamicWidth(context, 0.035),
           backgroundColor: Colors.transparent,
           child: Icon(
             Icons.arrow_back_ios,
-            size: DynamicSize().dynamicWidth(context, 0.03),
+            size: CustomSizes().dynamicWidth(context, 0.03),
             color: Colors.transparent,
           ),
         ),
