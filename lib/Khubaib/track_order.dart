@@ -33,11 +33,11 @@ class _TrackOrderState extends State<TrackOrder> {
   }
 }
 
-Widget trackTextField(context, hinttext) {
+Widget trackTextField(context, hintText, {border = true}) {
   return TextFormField(
     cursorColor: Colors.black,
     decoration: InputDecoration(
-      hintText: hinttext,
+      hintText: hintText,
       hintStyle: TextStyle(
         color: CustomColors.customGrey,
         fontSize: CustomSizes().dynamicHeight(context, 0.02),
@@ -45,15 +45,18 @@ Widget trackTextField(context, hinttext) {
       ),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: CustomColors.customYellow,
-          width: CustomSizes().dynamicWidth(context, 0.0065),
+          color:
+              border == true ? CustomColors.customYellow : CustomColors.noColor,
+          width: CustomSizes().dynamicWidth(context, .0065),
         ),
       ),
       contentPadding: EdgeInsets.symmetric(
           horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-      enabledBorder: const UnderlineInputBorder(
+      enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: CustomColors.customGrey,
+          color:
+              border == true ? CustomColors.customGrey : CustomColors.noColor,
+          width: CustomSizes().dynamicWidth(context, .0065),
         ),
       ),
     ),

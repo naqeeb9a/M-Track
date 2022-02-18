@@ -1,3 +1,4 @@
+import 'package:courierapp/Screens/location.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Screens/orders.dart';
 import 'package:courierapp/Screens/person.dart';
@@ -32,7 +33,12 @@ class _CustomTabBarState extends State<CustomTabBar>
         child: TabBarView(
           controller: _tabController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [Orders(), NewOrders(), Profile()],
+          children: const [
+            Orders(),
+            NewOrders(),
+            // Profile(),
+            LocationDetails(),
+          ],
         ),
       ),
       bottomNavigationBar: SizedBox(
