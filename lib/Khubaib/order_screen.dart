@@ -1,7 +1,6 @@
 import 'package:courierapp/Khubaib/active_order.dart';
 import 'package:courierapp/Khubaib/completed.dart';
 import 'package:courierapp/Screens/new_orders.dart';
-import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';

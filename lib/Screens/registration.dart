@@ -1,9 +1,10 @@
-import 'package:courierapp/Screens/home_page.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
+
+import '../Widgets/colorful_button.dart';
 
 class Registration extends StatelessWidget {
   const Registration({Key? key}) : super(key: key);
@@ -113,14 +114,14 @@ Widget registerInputField(context, text1) {
         cursorColor: Colors.black,
         decoration: InputDecoration(
           focusedBorder: UnderlineInputBorder(
-               borderSide: BorderSide(
+            borderSide: BorderSide(
               color: CustomColors.customYellow,
               width: CustomSizes().dynamicWidth(context, 0.0065),
             ),
           ),
           contentPadding: EdgeInsets.symmetric(
               horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-          enabledBorder:const  UnderlineInputBorder(
+          enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: CustomColors.customGrey,
             ),
