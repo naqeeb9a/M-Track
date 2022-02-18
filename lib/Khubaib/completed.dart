@@ -3,6 +3,7 @@ import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lottie/lottie.dart';
 
 class CompletedOrder extends StatefulWidget {
   const CompletedOrder({Key? key}) : super(key: key);
@@ -11,16 +12,23 @@ class CompletedOrder extends StatefulWidget {
   _CompletedOrderState createState() => _CompletedOrderState();
 }
 
-class _CompletedOrderState extends State<CompletedOrder> {
+class _CompletedOrderState extends State<CompletedOrder> with SingleTickerProviderStateMixin{
+  AnimationController? _controller;
+  @override
+  void initState() {
+    _controller =
+        AnimationController(duration: const Duration(seconds: 10),vsync: this);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: noCompletedOrder(context),
+      body: noCompletedOrder(context,_controller),
     );
   }
 }
 
-Widget noCompletedOrder(context) {
+Widget noCompletedOrder(context ,_controller) {
   return SizedBox(
     width: CustomSizes().dynamicWidth(context, 1),
     height: CustomSizes().dynamicHeight(context, 1),
@@ -28,25 +36,10 @@ Widget noCompletedOrder(context) {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Stack(
-          children: [
-            Image.network(
-              "https://cdn.iconscout.com/icon/free/png-256/save-3244517-2701888.png",
-              color: CustomColors.customYellow,
-              width: CustomSizes().dynamicWidth(context, 0.26),
-            ),
-            Positioned(
-              right: 0,
-              child: CircleAvatar(
-                radius: CustomSizes().dynamicHeight(context, 0.021),
-                backgroundColor: CustomColors.customBlack,
-                child: Icon(
-                  Icons.error,
-                  size: CustomSizes().dynamicHeight(context, 0.04),
-                ),
-              ),
-            )
-          ],
+        LottieBuilder.asset(
+          "assets/noData.json",
+          controller: _controller,
+          width: CustomSizes().dynamicWidth(context, 0.4),
         ),
         CustomSizes().heightBox(context, 0.03),
         text(context, "Oooops !", 0.06, CustomColors.customLightBlack,
