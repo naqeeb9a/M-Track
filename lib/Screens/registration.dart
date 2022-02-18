@@ -12,65 +12,54 @@ class Registration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.92,
+      child: SizedBox(
+        height: CustomSizes().dynamicHeight(context, 1),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            topBar(context, "Registration"),
+            CustomSizes().heightBox(context, 0.05),
+            Text(
+              "      Let's Get Started",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: CustomSizes().dynamicWidth(context, 0.05),
+              ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                topBar(context, "Registration"),
-                CustomSizes().heightBox(context, 0.05),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: CustomSizes().dynamicWidth(context, 0.05)),
-                  child: Text(
-                    "Let's Get Started",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: CustomSizes().dynamicWidth(context, 0.05),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: CustomSizes().dynamicWidth(context, 0.05)),
-                  child: Text(
-                    "Fill the form to Create your new account",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: CustomSizes().dynamicWidth(context, 0.03),
-                    ),
-                  ),
-                ),
-                CustomSizes().heightBox(context, 0.05),
-                registerInputField(context, "First name"),
-                registerInputField(context, "Last name"),
-                registerInputField(context, "Email"),
-                registerInputField(context, "Password"),
-                registerInputField(context, "Mobile number"),
-                CustomSizes().heightBox(context, 0.05),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-                  child: colorfulButton(
-                      context,
-                      "Register",
-                      CustomColors.customYellow,
-                      CustomColors.customYellow,
-                      FontWeight.bold),
-                ),
-                CustomSizes().heightBox(context, 0.02),
-                multiColorText(context, "By clicking Register I agree with ",
-                    "terms, Conditions and Agreements"),
-                CustomSizes().heightBox(context, 0.02),
-              ],
+            Text(
+              "      Fill the form to Create your new account",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: CustomSizes().dynamicWidth(context, 0.03),
+              ),
             ),
-          ),
-        ));
+            CustomSizes().heightBox(context, 0.05),
+            registerInputField(context, "First name"),
+            registerInputField(context, "Last name"),
+            registerInputField(context, "Email"),
+            registerInputField(context, "Password"),
+            registerInputField(context, "Mobile number"),
+            CustomSizes().heightBox(context, 0.05),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+              child: colorfulButton(
+                  context,
+                  "Register",
+                  CustomColors.customYellow,
+                  CustomColors.customYellow,
+                  FontWeight.bold),
+            ),
+            CustomSizes().heightBox(context, 0.02),
+            multiColorText(context, "By clicking Register I agree with ",
+                "terms, Conditions and Agreements"),
+            CustomSizes().heightBox(context, 0.02),
+          ],
+        ),
+      ),
+    ));
   }
 }
 
