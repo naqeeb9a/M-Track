@@ -1,4 +1,3 @@
-
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Widgets/colorful_button.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
@@ -22,70 +21,49 @@ class _RatingScreenState extends State<RatingScreen> {
         children: [
           topBar(context, "Rating"),
           CustomSizes().heightBox(context, 0.05),
-          SizedBox(
-            width: CustomSizes().dynamicWidth(context, 1),
-            height: CustomSizes().dynamicHeight(context, 0.1),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      CustomSizes().dynamicWidth(context, 0.025),
-                    ),
-                    child: Container(
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
                       width: CustomSizes().dynamicWidth(context, 0.2),
                       height: CustomSizes().dynamicHeight(context, 0.1),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          CustomSizes().dynamicWidth(context, 0.025),
+                        ),
                         color: CustomColors.customSkimColor,
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image: NetworkImage(
                                 "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
                             fit: BoxFit.fitWidth),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: CustomSizes().dynamicWidth(context, 0.03),
-                    ),
-                    child: Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        text(context, "John Smith", 0.04,
+                        text(context, "    John Smith", 0.04,
                             CustomColors.customBlack,
                             bold: true),
                         CustomSizes().heightBox(context, 0.02),
-                        text(context, "+93214567895", 0.04,
+                        text(context, "    +93214567895", 0.04,
                             CustomColors.customBlack,
                             bold: true)
                       ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          CustomSizes().heightBox(context, 0.015),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: CustomSizes().dynamicWidth(context, 0.05),
-            ),
-            child: Column(
-              children: [
+                    )
+                  ],
+                ),
+                CustomSizes().heightBox(context, 0.015),
                 Divider(
                   thickness: CustomSizes().dynamicHeight(context, 0.001),
                 ),
                 CustomSizes().heightBox(context, 0.02),
-                Row(
-                  children: [
-                    text(context, "Rate Delivery Boy", 0.04,
-                        CustomColors.customGrey,
-                        bold: true),
-                  ],
-                ),
+                text(
+                    context, "Rate Delivery Boy", 0.04, CustomColors.customGrey,
+                    bold: true),
                 CustomSizes().heightBox(context, 0.015),
                 RatingBar.builder(
                   glow: false,
@@ -101,16 +79,12 @@ class _RatingScreenState extends State<RatingScreen> {
                   ),
                   onRatingUpdate: (rating) {},
                 ),
+                CustomSizes().heightBox(context, 0.09),
+                colorfulButton(context, "Submit", CustomColors.customYellow,
+                    CustomColors.customYellow, FontWeight.bold),
               ],
             ),
-          ),
-          CustomSizes().heightBox(context, 0.09),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-            child: colorfulButton(context, "Submit", CustomColors.customYellow,
-                CustomColors.customYellow, FontWeight.bold),
-          ),
+          )
         ],
       ),
     );

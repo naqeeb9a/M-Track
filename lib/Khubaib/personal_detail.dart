@@ -1,4 +1,3 @@
-
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Screens/registration.dart';
 import 'package:courierapp/Widgets/colorful_button.dart';
@@ -7,7 +6,7 @@ import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 
 class PersonalDetails extends StatefulWidget {
-  const PersonalDetails({ Key? key }) : super(key: key);
+  const PersonalDetails({Key? key}) : super(key: key);
 
   @override
   _PersonalDetailsState createState() => _PersonalDetailsState();
@@ -17,7 +16,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column (
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           topBar(context, "Personal Details"),
           CustomSizes().heightBox(context, 0.09),
@@ -28,18 +28,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
           registerInputField(context, "Email"),
           CustomSizes().heightBox(context, 0.05),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-            child: Row(
-              children: [
-                Text(
-                  'Change your Password',
-                  style: TextStyle(
-                    fontSize: CustomSizes().dynamicHeight(context, 0.013),
-                    fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ],
+            padding: EdgeInsets.symmetric(
+                horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+            child: Text(
+              'Change your Password',
+              style: TextStyle(
+                fontSize: CustomSizes().dynamicHeight(context, 0.013),
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
           CustomSizes().heightBox(context, 0.05),
