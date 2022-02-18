@@ -1,4 +1,6 @@
 import 'package:courierapp/Routes/routes.dart';
+import 'package:courierapp/Screens/login.dart';
+import 'package:courierapp/Screens/new_orders.dart';
 
 import 'package:courierapp/Screens/registration.dart';
 import 'package:courierapp/utils/config.dart';
@@ -7,8 +9,6 @@ import 'package:flutter/material.dart';
 
 import '../Widgets/colorful_button.dart';
 
-
-
 class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);
 
@@ -16,12 +16,9 @@ class Orders extends StatefulWidget {
   State<Orders> createState() => _OrdersState();
 }
 
-class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -29,98 +26,79 @@ class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
             height: CustomSizes().dynamicHeight(context, 0.2),
             color: CustomColors.customYellow,
           ),
-          SafeArea(
-            child: SizedBox(
-              width: CustomSizes().dynamicWidth(context, 1),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-                child: Column(
-                  children: [
-                    CustomSizes().heightBox(context, 0.02),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: CircleAvatar(
-                        radius: CustomSizes().dynamicWidth(context, 0.035),
-                        backgroundColor: Colors.white.withOpacity(0.3),
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: CustomSizes().dynamicWidth(context, 0.03),
-                          color: Colors.white,
+          SizedBox(
+            width: CustomSizes().dynamicWidth(context, 1),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+              child: Column(
+                children: [
+                  CustomSizes().heightBox(context, 0.02),
+                  topBar(context, ""),
+                  CustomSizes().heightBox(context, 0.03),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                CustomSizes().dynamicWidth(context, 0.02)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: const Offset(2, 4),
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 2,
+                                  spreadRadius: 2)
+                            ]),
+                        padding: EdgeInsets.all(
+                            CustomSizes().dynamicWidth(context, 0.06)),
+                        child: Column(
+                          children: [
+                            CustomSizes().heightBox(context, 0.02),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Hello There",
+                                  style: TextStyle(
+                                      fontSize: CustomSizes()
+                                          .dynamicWidth(context, 0.04)),
+                                )),
+                            CustomSizes().heightBox(context, 0.03),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Login to your\nAccount!",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: CustomSizes()
+                                          .dynamicWidth(context, 0.05)),
+                                )),
+                            CustomSizes().heightBox(context, 0.03),
+                            colorfulButton(
+                                context,
+                                "Login",
+                                CustomColors.customYellow,
+                                Colors.transparent,
+                                FontWeight.normal, function: () {
+                              DynamicRoutes().push(context, const Login());
+                            }),
+                          ],
                         ),
                       ),
-                    ),
-                    CustomSizes().heightBox(context, 0.03),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        CustomSizes()
-                                            .dynamicWidth(context, 0.02)),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          offset: const Offset(2, 4),
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 2,
-                                          spreadRadius: 2)
-                                    ]),
-                                padding: EdgeInsets.all(
-                                    CustomSizes().dynamicWidth(context, 0.06)),
-                                child: Column(
-                                  children: [
-                                    CustomSizes().heightBox(context, 0.02),
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "Hello There",
-                                          style: TextStyle(
-                                              fontSize: CustomSizes()
-                                                  .dynamicWidth(context, 0.04)),
-                                        )),
-                                    CustomSizes().heightBox(context, 0.03),
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "Login to your\nAccount!",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: CustomSizes()
-                                                  .dynamicWidth(context, 0.05)),
-                                        )),
-                                    CustomSizes().heightBox(context, 0.03),
-                                    colorfulButton(
-                                        context,
-                                        "Login",
-                                        CustomColors.customYellow,
-                                        Colors.transparent,
-                                        FontWeight.normal),
-                                  ],
-                                ),
-                              ),
-                              CustomSizes().heightBox(context, 0.17),
-                              const Text("Don't Have an Account?"),
-                              CustomSizes().heightBox(context, 0.02),
-                              colorfulButton(
-                                  context,
-                                  "SignUp",
-                                  Colors.transparent,
-                                  CustomColors.customYellow,
-                                  FontWeight.bold, function: () {
-                                DynamicRoutes()
-                                    .push(context, const Registration());
-                              })
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                      CustomSizes().heightBox(context, 0.3),
+                      const Text("Don't Have an Account?"),
+                      CustomSizes().heightBox(context, 0.02),
+                      colorfulButton(
+                          context,
+                          "SignUp",
+                          Colors.transparent,
+                          CustomColors.customYellow,
+                          FontWeight.bold, function: () {
+                        DynamicRoutes().push(context, const Registration());
+                      })
+                    ],
+                  )
+                ],
               ),
             ),
           ),
