@@ -26,36 +26,7 @@ class _RatingScreenState extends State<RatingScreen> {
                 horizontal: CustomSizes().dynamicWidth(context, 0.05)),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: CustomSizes().dynamicWidth(context, 0.2),
-                      height: CustomSizes().dynamicHeight(context, 0.1),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          CustomSizes().dynamicWidth(context, 0.025),
-                        ),
-                        color: CustomColors.customSkimColor,
-                        image: const DecorationImage(
-                            image: NetworkImage(
-                                "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                            fit: BoxFit.fitWidth),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        text(context, "    John Smith", 0.04,
-                            CustomColors.customBlack,
-                            bold: true),
-                        CustomSizes().heightBox(context, 0.02),
-                        text(context, "    +93214567895", 0.04,
-                            CustomColors.customBlack,
-                            bold: true)
-                      ],
-                    )
-                  ],
-                ),
+                personCard(context),
                 CustomSizes().heightBox(context, 0.015),
                 Divider(
                   thickness: CustomSizes().dynamicHeight(context, 0.001),
@@ -89,4 +60,54 @@ class _RatingScreenState extends State<RatingScreen> {
       ),
     );
   }
+}
+
+Widget personCard(context, {icon = false}) {
+  return Container(
+    width: CustomSizes().dynamicWidth(context, 0.2),
+    height: CustomSizes().dynamicHeight(context, 0.1),
+    
+    child: Row(
+      children: [
+        icon == true
+            ? Container(
+                width: CustomSizes().dynamicWidth(context, 0.12),
+                height: CustomSizes().dynamicHeight(context, 0.06),
+               
+                decoration: BoxDecoration(
+                  border: Border.all(color:CustomColors.customYellow),
+                   borderRadius: BorderRadius.circular(
+                    CustomSizes().dynamicWidth(context, 0.025),
+                  ),
+                ),
+                child:Icon(Icons.person,color: CustomColors.customYellow,)
+              )
+            : Container(
+                width: CustomSizes().dynamicWidth(context, 0.2),
+                height: CustomSizes().dynamicHeight(context, 0.1),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    CustomSizes().dynamicWidth(context, 0.025),
+                  ),
+                  color: CustomColors.customSkimColor,
+                  image: const DecorationImage(
+                      image: NetworkImage(
+                          "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                      fit: BoxFit.fitWidth),
+                ),
+              ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            text(context, "    John Smith", 0.04, CustomColors.customBlack,
+                bold: true),
+            CustomSizes().heightBox(context, 0.02),
+            text(context, "    +93214567895", 0.04, CustomColors.customBlack,
+                bold: true)
+          ],
+        )
+      ],
+    ),
+  );
 }

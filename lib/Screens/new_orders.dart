@@ -84,7 +84,7 @@ topBar(context, text) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
-          
+          onTap :() =>CustomRoutes().pop(context), 
           child: CircleAvatar(
             radius: CustomSizes().dynamicWidth(context, 0.035),
             backgroundColor: Colors.white.withOpacity(0.3),

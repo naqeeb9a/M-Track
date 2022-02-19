@@ -3,6 +3,7 @@ import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 
+
 class ActiveOrder extends StatefulWidget {
   const ActiveOrder({Key? key}) : super(key: key);
 
@@ -14,7 +15,7 @@ class _ActiveOrderState extends State<ActiveOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: noActiverOrder(context),
+      body: activeOrder(context),
     );
   }
 }
@@ -77,6 +78,106 @@ Widget orderCard(context, image, title, subtitle, pngColor) {
             ],
           ),
         )
+      ],
+    ),
+  );
+}
+
+Widget activeOrder(context) {
+  return SizedBox(
+    width: CustomSizes().dynamicWidth(context, 1),
+    height: CustomSizes().dynamicHeight(context, 1),
+    child: ListView.builder(
+      padding: EdgeInsets.symmetric(
+        vertical: CustomSizes().dynamicHeight(context, 0),
+      ),
+      itemCount: 2,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        return activeOrderCard(context);
+      },
+    ),
+  );
+}
+
+Widget activeOrderCard(context){
+  return Container(
+    width: CustomSizes().dynamicWidth(context, 1),
+    height: CustomSizes().dynamicHeight(context, 0.24),
+    padding: EdgeInsets.symmetric(
+      horizontal: CustomSizes().dynamicWidth(context, 0.05),
+      vertical: CustomSizes().dynamicHeight(context, 0.01),
+    ),
+    decoration: const BoxDecoration(
+      border: Border(bottom : BorderSide(color:CustomColors.customGrey))
+    ),
+    child: Column(
+       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            text(context, "\$370", 0.04, CustomColors.customBlack, bold: true),
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: CustomSizes().dynamicWidth(context, 0.01),
+              ),
+              decoration: BoxDecoration(
+                color: CustomColors.customGrey,
+                borderRadius: BorderRadius.circular(
+                  CustomSizes().dynamicWidth(context, 0.05),
+                ),
+              ),
+              child: text(context, "14325", 0.03, CustomColors.customBlack),
+            )
+          ],
+        ),
+        text(context, "Courier is on the way", 0.035, CustomColors.customGreen,
+            bold: true),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+      
+          children: [
+            Icon(Icons.circle_outlined,color:CustomColors.customYellow,size:CustomSizes().dynamicHeight(context, 0.015),),
+             Flexible(
+               child: Padding(
+                 padding:  EdgeInsets.symmetric(horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+                 child: text(
+                    context,
+                    "18C, Block D Block Q Gulberg 2, Lahore, Punjab",
+                    0.035,
+                    CustomColors.customLightBlack,
+                    bold: true),
+               ),
+             ),
+          ],
+        ),
+       
+         Row(
+           crossAxisAlignment: CrossAxisAlignment.center,
+           
+          children: [
+            Icon(
+              Icons.circle_outlined,
+              color: CustomColors.customYellow,
+              size:CustomSizes().dynamicHeight(context, 0.015),
+            ),
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+                child: text(
+                    context,
+                    "Address 73, 73 Street L, Block L Gulberg III, Lahore, Punjab",
+                    0.035,
+                    CustomColors.customLightBlack,
+                    bold: true),
+              ),
+            ),
+          ],
+        ),
+        CustomSizes().heightBox(context, 0.02)
       ],
     ),
   );

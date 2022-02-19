@@ -7,6 +7,7 @@ class CustomColors {
   static const customGrey = Color(0xffb9c4cf);
   static const customBlack = Color(0xff1f1f1f);
   static const customLightBlack = Color(0xff404750);
+  static const customGreen = Color(0xff38df38);
   static const noColor = Colors.transparent;
 
   static const MaterialColor primaryColor = MaterialColor(

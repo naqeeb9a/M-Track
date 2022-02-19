@@ -1,4 +1,6 @@
+import 'package:courierapp/Khubaib/rating.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
+import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,7 @@ class _CompletedOrderState extends State<CompletedOrder> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: noCompletedOrder(context,_controller),
+      body: completedOrder(context),
     );
   }
 }
@@ -127,17 +129,20 @@ Widget completedOrderCard(context) {
           ),
           onRatingUpdate: (rating) {},
         ),
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: CustomSizes().dynamicWidth(context, 0.05),
-              vertical: CustomSizes().dynamicHeight(context, 0)),
-          decoration: BoxDecoration(
-            color: CustomColors.customYellow,
-            borderRadius: BorderRadius.circular(
-              CustomSizes().dynamicWidth(context, 0.05),
+        InkWell(
+          onTap :()=>CustomRoutes().push(context,const RatingScreen()),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: CustomSizes().dynamicWidth(context, 0.05),
+                vertical: CustomSizes().dynamicHeight(context, 0)),
+            decoration: BoxDecoration(
+              color: CustomColors.customYellow,
+              borderRadius: BorderRadius.circular(
+                CustomSizes().dynamicWidth(context, 0.05),
+              ),
             ),
+            child: text(context, "RATE", 0.035, CustomColors.customBlack,bold:true),
           ),
-          child: text(context, "RATE", 0.035, CustomColors.customBlack,bold:true),
         )
       ],
     ),
