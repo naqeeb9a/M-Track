@@ -23,9 +23,17 @@ class _NewOrdersState extends State<NewOrders>
         children: [
           topBar(context, "New Order type"),
           CustomSizes().heightBox(context, 0.01),
-          InkWell(
-            onTap :()=> CustomRoutes().push(context,const BookCourier()),
-            child: cards(context, Icons.book, "Book a courier", false),
+          cards(
+            context,
+            Icons.book,
+            "Book a courier",
+            false,
+            function: () {
+              CustomRoutes().push(
+                context,
+                const BookCourier(),
+              );
+            },
           ),
           CustomSizes().heightBox(context, 0.01),
           cards(context, Icons.location_city, "Hyperlocal", false)
@@ -35,38 +43,45 @@ class _NewOrdersState extends State<NewOrders>
   }
 }
 
-cards(context, icon, text, check ,{check2 =false}) {
-  return Container(
-    color: Colors.white,
-    padding: EdgeInsets.all(CustomSizes().dynamicWidth(context, 0.03)),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Container(
-              padding:
-                  EdgeInsets.all(CustomSizes().dynamicWidth(context, 0.02)),
-              decoration: BoxDecoration(
+cards(context, icon, text, check, {check2 = false, function = ""}) {
+  return InkWell(
+    onTap: function == "" ? () {} : function,
+    child: Container(
+      color: Colors.white,
+      padding: EdgeInsets.all(CustomSizes().dynamicWidth(context, 0.03)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding:
+                    EdgeInsets.all(CustomSizes().dynamicWidth(context, 0.02)),
+                decoration: BoxDecoration(
                   border: Border.all(
                       color: check == false ? Colors.grey : Colors.transparent,
                       width: check == false ? 1 : 0),
                   borderRadius: BorderRadius.circular(
-                      CustomSizes().dynamicWidth(context, 0.02))),
-              child: Icon(
-                icon,
-                color: CustomColors.customYellow,
+                    CustomSizes().dynamicWidth(context, 0.02),
+                  ),
+                ),
+                child: Icon(
+                  icon,
+                  color: CustomColors.customYellow,
+                ),
               ),
-            ),
-            CustomSizes().widthBox(context, 0.03),
-            Text(text)
-          ],
-        ),
-         check2 == true? const Icon(
-          Icons.arrow_forward_ios,
-          color: Colors.grey, 
-        ) : Container(),
-      ],
+              CustomSizes().widthBox(context, 0.03),
+              Text(text)
+            ],
+          ),
+          check2 == true
+              ? const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.grey,
+                )
+              : Container(),
+        ],
+      ),
     ),
   );
 }
@@ -84,7 +99,7 @@ topBar(context, text) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
-          onTap :() =>CustomRoutes().pop(context), 
+          onTap: () => CustomRoutes().pop(context),
           child: CircleAvatar(
             radius: CustomSizes().dynamicWidth(context, 0.035),
             backgroundColor: Colors.white.withOpacity(0.3),
@@ -96,11 +111,12 @@ topBar(context, text) {
           ),
         ),
         Align(
-            alignment: Alignment.center,
-            child: Text(
-              text,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            )),
+          alignment: Alignment.center,
+          child: Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
         CircleAvatar(
           radius: CustomSizes().dynamicWidth(context, 0.035),
           backgroundColor: Colors.transparent,

@@ -1,3 +1,4 @@
+import 'package:courierapp/Khubaib/preferences.dart';
 import 'package:courierapp/Khubaib/sending.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/utils/app_routes.dart';
@@ -19,14 +20,34 @@ class _BookCourierState extends State<BookCourier> {
       children: [
         topBar(context, "Book A Courier"),
         CustomSizes().heightBox(context, 0.02),
-        InkWell(
-          onTap: () => CustomRoutes().push(context,const SendingScreen() ),
-          child: cards(context, Icons.book, "Up to 5 kg", false),
+        cards(
+          context,
+          Icons.book,
+          "Up to 5 kg",
+          false,
+          function: () => CustomRoutes().push(
+            context,
+            const SendingScreen(),
+          ),
         ),
         CustomSizes().heightBox(context, 0.02),
-        cards(context, Icons.book, "Up to 10 kg", false),
+        cards(
+          context,
+          Icons.book,
+          "Up to 10 kg",
+          false,
+          function: () => CustomRoutes().push(
+            context,
+            const SendingScreen(),
+          ),
+        ),
         CustomSizes().heightBox(context, 0.02),
-        cards(context, Icons.book, "Up to 15 kg", false)
+        cards(context, Icons.book, "Up to 15 kg", false,
+          function: () => CustomRoutes().push(
+            context,
+            const SendingScreen(),
+          ),
+        )
       ],
     ));
   }

@@ -1,5 +1,7 @@
+import 'package:courierapp/Khubaib/track_detail.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Widgets/colorful_button.dart';
+import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +24,15 @@ class _TrackOrderState extends State<TrackOrder> {
           trackTextField(context, "Enter Order Number"),
           CustomSizes().heightBox(context, 0.09),
           Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-            child: colorfulButton(context, "Submit", CustomColors.customYellow,
-                CustomColors.customYellow, FontWeight.bold),
-          ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+              child: colorfulButton(context, "Track", CustomColors.customYellow,
+                  CustomColors.customYellow, FontWeight.bold,
+                   function: () {
+                      CustomRoutes().push(context,const TrackDetail());
+                    },),
+            ),
+         
         ],
       ),
     );

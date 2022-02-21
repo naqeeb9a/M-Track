@@ -1,6 +1,7 @@
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/utils/config.dart';
+import 'package:courierapp/utils/constants.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +90,7 @@ Widget multiColorText(context, text, text1) {
   );
 }
 
-Widget registerInputField(context, text1) {
+Widget registerInputField(context, text1,{password = false}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,9 +101,17 @@ Widget registerInputField(context, text1) {
           child:
               text(context, text1, 0.03, CustomColors.customGrey, bold: true)),
       TextFormField(
+        obscureText: password== true? true:false,
         cursorColor: Colors.black,
         decoration: InputDecoration(
+           suffixIcon: password==true? const InkWell(
+             child: Icon(
+              Icons.visibility_outlined
+                     ),
+           ):null,
+          
           focusedBorder: UnderlineInputBorder(
+            
             borderSide: BorderSide(
               color: CustomColors.customYellow,
               width: CustomSizes().dynamicWidth(context, 0.0065),

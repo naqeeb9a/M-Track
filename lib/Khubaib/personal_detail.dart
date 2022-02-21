@@ -1,6 +1,8 @@
+import 'package:courierapp/Khubaib/change_password.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Screens/registration.dart';
 import 'package:courierapp/Widgets/colorful_button.dart';
+import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +29,21 @@ class _PersonalDetailsState extends State<PersonalDetails> {
           registerInputField(context, "Mobile number"),
           registerInputField(context, "Email"),
           CustomSizes().heightBox(context, 0.05),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-            child: Text(
-              'Change your Password',
-              style: TextStyle(
-                fontSize: CustomSizes().dynamicHeight(context, 0.013),
-                fontWeight: FontWeight.w500,
-                decoration: TextDecoration.underline,
+          InkWell(
+            onTap: () => CustomRoutes().push(
+              context,
+              const ChangePassword(),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+              child: Text(
+                'Change your Password',
+                style: TextStyle(
+                  fontSize: CustomSizes().dynamicHeight(context, 0.015),
+                  fontWeight: FontWeight.w700,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
           ),

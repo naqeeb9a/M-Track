@@ -19,15 +19,16 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
       body: Column(
         children: [
           topBar(context, "Help Center"),
+        
           ListView.builder(
             padding: EdgeInsets.symmetric(
               vertical: CustomSizes().dynamicHeight(context, 0),
               // horizontal: CustomSizes().dynamicWidth(context, 0.05),
             ),
-            itemCount: 2,
+            itemCount: 4,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return personCard(context,icon:true);
+              return personCard(context,icon:true,marginline: true);
             },
           ),
         ],

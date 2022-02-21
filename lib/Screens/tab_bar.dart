@@ -36,8 +36,8 @@ class _CustomTabBarState extends State<CustomTabBar>
           children: const [
             Orders(),
             NewOrders(),
-            // Profile(),
-            LocationDetails(),
+            Profile(),
+            //LocationDetails(),
           ],
         ),
       ),

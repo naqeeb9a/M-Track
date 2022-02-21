@@ -48,7 +48,7 @@ class _SubmitOrderState extends State<SubmitOrder> {
   }
 }
 
-Widget orderCard(context, index) {
+Widget orderCard(context, index,{icon = false}) {
   return Container(
     margin: EdgeInsets.symmetric(
         vertical: CustomSizes().dynamicHeight(context, 0.01)),
@@ -78,12 +78,24 @@ Widget orderCard(context, index) {
                   bold: true,
                   maxLines: 5),
               CustomSizes().heightBox(context, 0.01),
-              text(context, "Today till:11.30", 0.04,
-                  CustomColors.customLightBlack,
-                  bold: true),
-              text(context, "+92324 4441990", 0.04,
-                  CustomColors.customLightBlack,
-                  bold: true),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      text(context, "Today till:11.30", 0.04,
+                          CustomColors.customLightBlack,
+                          bold: true),
+                          text(context, "+92324 4441990", 0.04,
+                          CustomColors.customLightBlack,
+                          bold: true),
+                    ],
+                  ),
+                  icon==true?const Icon(Icons.phone,color: CustomColors.customGreen,):Container(),
+                ],
+              ),
+              
             ],
           ),
         ),

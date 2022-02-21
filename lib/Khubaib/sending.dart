@@ -1,4 +1,6 @@
+import 'package:courierapp/Khubaib/change_password.dart';
 import 'package:courierapp/Khubaib/help_center.dart';
+import 'package:courierapp/Khubaib/order_detail.dart';
 import 'package:courierapp/Khubaib/order_screen.dart';
 import 'package:courierapp/Khubaib/rating.dart';
 import 'package:courierapp/Khubaib/submit_order.dart';
@@ -28,7 +30,11 @@ class _SendingScreenState extends State<SendingScreen> {
             child: cards(context, Icons.article, "Documents", false),
           ),
           CustomSizes().heightBox(context, 0.02),
-          cards(context, Icons.book, "Food or Meals", false),
+        
+           InkWell(
+            onTap: () => CustomRoutes().push(context, const OrderDetail()),
+            child: cards(context, Icons.book, "Food or Meals", false),
+          ),
           CustomSizes().heightBox(context, 0.02),
            InkWell(
             onTap: () => CustomRoutes().push(context, const TrackOrder()),
@@ -46,7 +52,8 @@ class _SendingScreenState extends State<SendingScreen> {
           ),
           
           CustomSizes().heightBox(context, 0.02),
-          cards(context, Icons.cake ,"Cake", false),
+           cards(context, Icons.cake, "Cake", false),
+        
          
         ],
       ),

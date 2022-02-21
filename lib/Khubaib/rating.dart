@@ -21,12 +21,13 @@ class _RatingScreenState extends State<RatingScreen> {
         children: [
           topBar(context, "Rating"),
           CustomSizes().heightBox(context, 0.05),
+          personCard(context),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: CustomSizes().dynamicWidth(context, 0.05)),
             child: Column(
               children: [
-                personCard(context),
+              
                 CustomSizes().heightBox(context, 0.015),
                 Divider(
                   thickness: CustomSizes().dynamicHeight(context, 0.001),
@@ -62,12 +63,20 @@ class _RatingScreenState extends State<RatingScreen> {
   }
 }
 
-Widget personCard(context, {icon = false}) {
+Widget personCard(context, {icon = false,marginline = false,phoneIcon = false,containerColor= true}) {
   return Container(
-    width: CustomSizes().dynamicWidth(context, 0.2),
+      padding: EdgeInsets.symmetric(
+            // vertical: CustomSizes().dynamicHeight(context, 0),
+               horizontal: CustomSizes().dynamicWidth(context, 0.05),
+            ),
+    width: CustomSizes().dynamicWidth(context, 1),
     height: CustomSizes().dynamicHeight(context, 0.1),
-    
+    margin:marginline == true? EdgeInsets.symmetric(
+        vertical: CustomSizes().dynamicHeight(context, 0.01)): EdgeInsets.symmetric(
+            vertical: CustomSizes().dynamicHeight(context, 0)),
+    color:containerColor==true?CustomColors.customWhite:CustomColors.noColor,
     child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         icon == true
             ? Container(
@@ -89,7 +98,7 @@ Widget personCard(context, {icon = false}) {
                   borderRadius: BorderRadius.circular(
                     CustomSizes().dynamicWidth(context, 0.025),
                   ),
-                  color: CustomColors.customSkimColor,
+              
                   image: const DecorationImage(
                       image: NetworkImage(
                           "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
@@ -106,7 +115,9 @@ Widget personCard(context, {icon = false}) {
             text(context, "    +93214567895", 0.04, CustomColors.customBlack,
                 bold: true)
           ],
-        )
+        ),
+        CustomSizes().widthBox(context, 0.3),
+        phoneIcon==true?const Icon(Icons.phone,color: CustomColors.customGreen,): CustomSizes().widthBox(context, 0.1),
       ],
     ),
   );

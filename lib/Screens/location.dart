@@ -1,3 +1,4 @@
+import 'package:courierapp/Khubaib/submit_order.dart';
 import 'package:courierapp/Khubaib/track_order.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
@@ -5,6 +6,8 @@ import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
+
+import '../Widgets/colorful_button.dart';
 
 class LocationDetails extends StatefulWidget {
   const LocationDetails({Key? key}) : super(key: key);
@@ -30,6 +33,7 @@ class _LocationDetailsState extends State<LocationDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.customGrey.withOpacity(.24),
+      bottomNavigationBar: orderBottomBar(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -359,6 +363,20 @@ class _LocationDetailsState extends State<LocationDetails> {
               child: trackTextField(context, "Comment", border: false),
             ),
             CustomSizes().heightBox(context, .03),
+             Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+              child: colorfulButton(
+                context,
+                "Add Delivery Point",
+                CustomColors.customYellow,
+                CustomColors.customYellow,
+                FontWeight.bold,
+                // function: () {
+                //   CustomRoutes().push(context, const TrackDetail());
+                // },
+              ),
+            ),
           ],
         ),
       ),

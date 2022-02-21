@@ -29,14 +29,14 @@ Widget noActiverOrder(context) {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        orderCard(
+        noactiveOrderCard(
             context,
             "https://www.pngkit.com/png/full/72-724560_png-file-tracking-parcel-png.png",
             "Send Package",
             "Deliver or recieve items such as gifts ,documents,keys",
             CustomColors.customYellow),
         CustomSizes().heightBox(context, 0.065),
-        orderCard(
+        noactiveOrderCard(
             context,
             "https://cdn0.iconfinder.com/data/icons/line-design-word-processing-set-3-1/21/mailing-recipient-list-512.png",
             "I am Recipent",
@@ -47,7 +47,7 @@ Widget noActiverOrder(context) {
   );
 }
 
-Widget orderCard(context, image, title, subtitle, pngColor) {
+Widget noactiveOrderCard(context, image, title, subtitle, pngColor) {
   return Container(
     width: CustomSizes().dynamicWidth(context, 0.85),
     height: CustomSizes().dynamicHeight(context, .15),
