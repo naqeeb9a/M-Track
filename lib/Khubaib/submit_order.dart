@@ -15,7 +15,7 @@ class _SubmitOrderState extends State<SubmitOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: orderBottomBar(context),
+      bottomNavigationBar: orderBottomBar(context,"Created Order"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,7 +104,7 @@ Widget orderCard(context, index,{icon = false}) {
   );
 }
 
-Widget orderBottomBar(context) {
+Widget orderBottomBar(context, title,{function = ""}) {
   return Container(
     width: CustomSizes().dynamicWidth(context, 1),
     height: CustomSizes().dynamicHeight(context, 0.06),
@@ -115,12 +115,15 @@ Widget orderBottomBar(context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         text(context, "\$1300", 0.038, CustomColors.customYellow, bold: true),
-        Row(children: [
-          text(context, "Created", 0.038, CustomColors.customWhite, bold: true),
-          Icon(Icons.arrow_forward_ios,
-              size: CustomSizes().dynamicWidth(context, 0.035),
-              color: CustomColors.customWhite),
-        ])
+        InkWell(
+           onTap: function == "" ? () {} : function,
+          child: Row(children: [
+            text(context, title, 0.038, CustomColors.customWhite, bold: true),
+            Icon(Icons.arrow_forward_ios,
+                size: CustomSizes().dynamicWidth(context, 0.035),
+                color: CustomColors.customWhite),
+          ]),
+        )
       ],
     ),
   );

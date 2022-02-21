@@ -5,13 +5,14 @@ import 'package:courierapp/Khubaib/order_screen.dart';
 import 'package:courierapp/Khubaib/rating.dart';
 import 'package:courierapp/Khubaib/submit_order.dart';
 import 'package:courierapp/Khubaib/track_order.dart';
+import 'package:courierapp/Screens/location.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 
 class SendingScreen extends StatefulWidget {
-  const SendingScreen({ Key? key }) : super(key: key);
+  const SendingScreen({Key? key}) : super(key: key);
 
   @override
   _SendingScreenState createState() => _SendingScreenState();
@@ -25,36 +26,71 @@ class _SendingScreenState extends State<SendingScreen> {
         children: [
           topBar(context, "What are you sending?"),
           CustomSizes().heightBox(context, 0.02),
-          InkWell(
-            onTap: () => CustomRoutes().push(context, const SubmitOrder()),
-            child: cards(context, Icons.article, "Documents", false),
+          cards(
+            context,
+            Icons.article,
+            "Documents",
+            false,
+            function: () => CustomRoutes().push(
+              context,
+              const LocationDetails(),
+            ),
           ),
           CustomSizes().heightBox(context, 0.02),
-        
-           InkWell(
-            onTap: () => CustomRoutes().push(context, const OrderDetail()),
-            child: cards(context, Icons.book, "Food or Meals", false),
+          cards(
+            context,
+            Icons.book,
+            "Food or Meals",
+            false,
+            function: () => CustomRoutes().push(
+              context,
+              const LocationDetails(),
+            ),
           ),
           CustomSizes().heightBox(context, 0.02),
-           InkWell(
-            onTap: () => CustomRoutes().push(context, const TrackOrder()),
-            child:  cards(context, Icons.book, "Clothes", false),
+          cards(
+            context,
+            Icons.book,
+            "Clothes",
+            false,
+            function: () => CustomRoutes().push(
+              context,
+              const LocationDetails(),
+            ),
           ),
           CustomSizes().heightBox(context, 0.02),
-           InkWell(
-            onTap: () => CustomRoutes().push(context, const OrderScreen()),
-            child: cards(context, Icons.book, "Grocries", false),
+          cards(
+            context,
+            Icons.book,
+            "Grocries",
+            false,
+            function: () => CustomRoutes().push(
+              context,
+              const LocationDetails(),
+            ),
           ),
           CustomSizes().heightBox(context, 0.02),
-           InkWell(
-            onTap: () => CustomRoutes().push(context, const HelpCenterScreen()),
-            child: cards(context, Icons.book, "Flowers", false),
+          cards(
+            context,
+            Icons.book,
+            "Flowers",
+            false,
+            function: () => CustomRoutes().push(
+              context,
+              const LocationDetails(),
+            ),
           ),
-          
           CustomSizes().heightBox(context, 0.02),
-           cards(context, Icons.cake, "Cake", false),
-        
-         
+          cards(
+            context,
+            Icons.cake,
+            "Cake",
+            false,
+            function: () => CustomRoutes().push(
+              context,
+              const LocationDetails(),
+            ),
+          ),
         ],
       ),
     );
