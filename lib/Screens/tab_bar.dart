@@ -1,4 +1,3 @@
-import 'package:courierapp/Screens/location.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Screens/orders.dart';
 import 'package:courierapp/Screens/person.dart';

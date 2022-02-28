@@ -1,5 +1,4 @@
 import 'package:courierapp/Khubaib/rating.dart';
-import 'package:courierapp/utils/config.dart';
 import 'package:flutter/material.dart';
 
 import '../Screens/new_orders.dart';

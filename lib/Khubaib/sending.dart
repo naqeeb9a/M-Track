@@ -1,10 +1,3 @@
-import 'package:courierapp/Khubaib/change_password.dart';
-import 'package:courierapp/Khubaib/help_center.dart';
-import 'package:courierapp/Khubaib/order_detail.dart';
-import 'package:courierapp/Khubaib/order_screen.dart';
-import 'package:courierapp/Khubaib/rating.dart';
-import 'package:courierapp/Khubaib/submit_order.dart';
-import 'package:courierapp/Khubaib/track_order.dart';
 import 'package:courierapp/Screens/location.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/utils/app_routes.dart';

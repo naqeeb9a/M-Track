@@ -1,4 +1,3 @@
-import 'package:courierapp/Khubaib/preferences.dart';
 import 'package:courierapp/Khubaib/sending.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/utils/app_routes.dart';

@@ -89,7 +89,7 @@ Widget personCard(context, {icon = false,marginline = false,phoneIcon = false,co
                     CustomSizes().dynamicWidth(context, 0.025),
                   ),
                 ),
-                child:Icon(Icons.person,color: CustomColors.customYellow,)
+                child:const Icon(Icons.person,color: CustomColors.customYellow,)
               )
             : Container(
                 width: CustomSizes().dynamicWidth(context, 0.2),
