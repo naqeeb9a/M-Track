@@ -1,3 +1,4 @@
+import 'package:courierapp/Khubaib/help_center.dart';
 import 'package:courierapp/Khubaib/personal_detail.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/utils/app_routes.dart';
@@ -56,17 +57,14 @@ class _ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
           ),
         ),
         CustomSizes().heightBox(context, 0.02),
-        InkWell(
-          onTap: ()=>CustomRoutes().push(context,const PersonalDetails()),
-          child:
-              cards(context, Icons.person, "Person Detail", true, check2: true),
+        cards(context, Icons.person, "Person Detail", true, check2: true,function: () => CustomRoutes().push(context, const PersonalDetails()),
         ),
         CustomSizes().heightBox(context, 0.02),
         cards(context, Icons.privacy_tip, "Privacy Policy", true, check2: true),
         CustomSizes().heightBox(context, 0.02),
         cards(context, Icons.book, "Terms and Conditions", true, check2: true),
         CustomSizes().heightBox(context, 0.02),
-        cards(context, Icons.contact_support, "Contact Us", true, check2: true),
+        cards(context, Icons.contact_support, "Contact Us", true, check2: true,function: ()=>CustomRoutes().push(context,const HelpCenterScreen()),),
         CustomSizes().heightBox(context, 0.02),
         cards(context, Icons.logout, "Logout", true, check2: true),
       ],

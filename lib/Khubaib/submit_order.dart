@@ -1,5 +1,7 @@
+import 'package:courierapp/Khubaib/order_screen.dart';
 import 'package:courierapp/Screens/new_orders.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
+import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,12 @@ class _SubmitOrderState extends State<SubmitOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: orderBottomBar(context,"Created Order"),
+      bottomNavigationBar: orderBottomBar(context,"Created Order",
+        function: () => CustomRoutes().push(
+          context,
+          const OrderScreen(),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
