@@ -17,7 +17,9 @@ class _SubmitOrderState extends State<SubmitOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: orderBottomBar(context,"Created Order",
+      bottomNavigationBar: orderBottomBar(
+        context,
+        "Created Order",
         function: () => CustomRoutes().push(
           context,
           const OrderScreen(),
@@ -45,7 +47,7 @@ class _SubmitOrderState extends State<SubmitOrder> {
               shrinkWrap: true,
               itemCount: 5,
               itemBuilder: (BuildContext context, int index) {
-                return orderCard(context, index);
+                return orderCard(context, index, "","");
               },
             ),
           )
@@ -55,7 +57,7 @@ class _SubmitOrderState extends State<SubmitOrder> {
   }
 }
 
-Widget orderCard(context, index,{icon = false}) {
+Widget orderCard(context, index, text1,mobileNumber, {icon = false}) {
   return Container(
     margin: EdgeInsets.symmetric(
         vertical: CustomSizes().dynamicHeight(context, 0.01)),
@@ -69,21 +71,15 @@ Widget orderCard(context, index,{icon = false}) {
         CircleAvatar(
           radius: CustomSizes().dynamicWidth(context, 0.05),
           backgroundColor: CustomColors.customYellow,
-          child: text(
-              context, (index + 1).toString(), 0.045, CustomColors.customWhite),
+          child: text(context, index, 0.045, CustomColors.customWhite),
         ),
         SizedBox(
           width: CustomSizes().dynamicWidth(context, 0.6),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              text(
-                  context,
-                  "IQBAL SPEAKERS WORKS Office, Shahrah-e-Quaid-e-Azam, opposite State Bank, Lahore, 56000",
-                  0.04,
-                  CustomColors.customLightBlack,
-                  bold: true,
-                  maxLines: 5),
+              text(context, text1, 0.04, CustomColors.customLightBlack,
+                  bold: true, maxLines: 5),
               CustomSizes().heightBox(context, 0.01),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,15 +90,19 @@ Widget orderCard(context, index,{icon = false}) {
                       text(context, "Today till:11.30", 0.04,
                           CustomColors.customLightBlack,
                           bold: true),
-                          text(context, "+92324 4441990", 0.04,
+                      text(context, mobileNumber, 0.04,
                           CustomColors.customLightBlack,
                           bold: true),
                     ],
                   ),
-                  icon==true?const Icon(Icons.phone,color: CustomColors.customGreen,):Container(),
+                  icon == true
+                      ? const Icon(
+                          Icons.phone,
+                          color: CustomColors.customGreen,
+                        )
+                      : Container(),
                 ],
               ),
-              
             ],
           ),
         ),
@@ -111,7 +111,7 @@ Widget orderCard(context, index,{icon = false}) {
   );
 }
 
-Widget orderBottomBar(context, title,{function = ""}) {
+Widget orderBottomBar(context, title, {function = ""}) {
   return Container(
     width: CustomSizes().dynamicWidth(context, 1),
     height: CustomSizes().dynamicHeight(context, 0.06),
@@ -123,7 +123,7 @@ Widget orderBottomBar(context, title,{function = ""}) {
       children: [
         text(context, "\$1300", 0.038, CustomColors.customYellow, bold: true),
         InkWell(
-           onTap: function == "" ? () {} : function,
+          onTap: function == "" ? () {} : function,
           child: Row(children: [
             text(context, title, 0.038, CustomColors.customWhite, bold: true),
             Icon(Icons.arrow_forward_ios,

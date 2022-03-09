@@ -6,9 +6,19 @@ import 'package:flutter/material.dart';
 
 import '../Widgets/colorful_button.dart';
 
-class Registration extends StatelessWidget {
+class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
 
+  @override
+  State<Registration> createState() => _RegistrationState();
+}
+
+class _RegistrationState extends State<Registration> {
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _firstname = TextEditingController();
+  final TextEditingController _lastname = TextEditingController();
+  final TextEditingController _mobile = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +46,16 @@ class Registration extends StatelessWidget {
               ),
             ),
             CustomSizes().heightBox(context, 0.05),
-            registerInputField(context, "First name"),
-            registerInputField(context, "Last name"),
-            registerInputField(context, "Email"),
-            registerInputField(context, "Password"),
-            registerInputField(context, "Mobile number"),
+            registerInputField(
+                context, "First name", _firstname, "Enter your first name"),
+            registerInputField(
+                context, "Last name", _lastname, "Enter your last name"),
+            registerInputField(context, "Email", _email, "Enter your email"),
+            registerInputField(
+                context, "Password", _password, "Enter your password",
+                password: true),
+            registerInputField(
+                context, "Mobile number", _mobile, "Enter your mobile number"),
             CustomSizes().heightBox(context, 0.05),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -60,6 +75,17 @@ class Registration extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    _mobile.dispose();
+    _firstname.dispose();
+    _lastname.dispose();
+
+    super.dispose();
   }
 }
 
@@ -89,7 +115,8 @@ Widget multiColorText(context, text, text1) {
   );
 }
 
-Widget registerInputField(context, text1,{password = false}) {
+Widget registerInputField(context, text1,TextEditingController  controller, hintText,
+    {bool password = false, bool enable = true}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,17 +127,18 @@ Widget registerInputField(context, text1,{password = false}) {
           child:
               text(context, text1, 0.03, CustomColors.customGrey, bold: true)),
       TextFormField(
-        obscureText: password== true? true:false,
+        controller: controller,
+        enabled: enable,
+        obscureText: password == true ? true : false,
         cursorColor: Colors.black,
         decoration: InputDecoration(
-           suffixIcon: password==true? const InkWell(
-             child: Icon(
-              Icons.visibility_outlined
-                     ),
-           ):null,
-          
+          hintText: hintText,
+          suffixIcon: password == true
+              ? const InkWell(
+                  child: Icon(Icons.visibility_outlined),
+                )
+              : null,
           focusedBorder: UnderlineInputBorder(
-            
             borderSide: BorderSide(
               color: CustomColors.customYellow,
               width: CustomSizes().dynamicWidth(context, 0.0065),

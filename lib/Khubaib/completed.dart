@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
 
+import '../Widgets/buttons.dart';
+import '../Widgets/loader.dart';
+import '../backend/orders.dart';
+
 class CompletedOrder extends StatefulWidget {
   const CompletedOrder({Key? key}) : super(key: key);
 
@@ -15,23 +19,22 @@ class CompletedOrder extends StatefulWidget {
   _CompletedOrderState createState() => _CompletedOrderState();
 }
 
-class _CompletedOrderState extends State<CompletedOrder> with SingleTickerProviderStateMixin{
-  AnimationController? _controller;
+class _CompletedOrderState extends State<CompletedOrder>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    _controller =
-        AnimationController(duration: const Duration(seconds: 10),vsync: this);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: completedOrder(context),
+      body: completedOrder(context, setState),
     );
   }
 }
 
-Widget noCompletedOrder(context ,_controller) {
+Widget noCompletedOrder(context, _controller) {
   return SizedBox(
     width: CustomSizes().dynamicWidth(context, 1),
     height: CustomSizes().dynamicHeight(context, 1),
@@ -55,26 +58,47 @@ Widget noCompletedOrder(context ,_controller) {
   );
 }
 
-Widget completedOrder(context) {
+Widget completedOrder(context, setState) {
   return SizedBox(
     width: CustomSizes().dynamicWidth(context, 1),
     height: CustomSizes().dynamicHeight(context, 1),
-    child: ListView.builder(
-      padding: EdgeInsets.symmetric(
-        vertical: CustomSizes().dynamicHeight(context, 0),
-      ),
-      itemCount: 2,
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        return completedOrderCard(context);
-      },
-    ),
+    child: FutureBuilder(
+        future: RiderFunctionality().getRiderInfo(query: "delivered-order"),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data == false) {
+              return retry(context);
+            } else if (snapshot.data.length == 0) {
+              return text(
+                  context, "No Active Orders", 0.04, CustomColors.customBlack);
+            } else {
+              return ListView.builder(
+                padding: EdgeInsets.symmetric(
+                  vertical: CustomSizes().dynamicHeight(context, 0),
+                ),
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return completedOrderCard(context, snapshot.data, index, setState);
+                },
+              );
+            }
+          } else {
+            return const Loader();
+          }
+        }),
   );
 }
 
-Widget completedOrderCard(context) {
+Widget completedOrderCard(
+    BuildContext context, List snapshot, index, setState) {
   return InkWell(
-    onTap: ()=>CustomRoutes().push(context,const OrderDetail()),
+    onTap: () => CustomRoutes().push(
+        context,
+        OrderDetail(
+          snapshot: snapshot,
+          index: index,
+          stateChange: setState,
+        )),
     child: Container(
       width: CustomSizes().dynamicWidth(context, 1),
       height: CustomSizes().dynamicHeight(context, 0.19),
@@ -93,8 +117,8 @@ Widget completedOrderCard(context) {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              text(context, "Completed 14 Decemeber 3:14PM", 0.035,
-                  CustomColors.customGrey,
+              text(context, snapshot[index]["updated_at"].toString(),
+                  0.035, CustomColors.customGrey,
                   bold: true),
               Container(
                 padding: EdgeInsets.symmetric(
@@ -106,20 +130,29 @@ Widget completedOrderCard(context) {
                     CustomSizes().dynamicWidth(context, 0.05),
                   ),
                 ),
-                child: text(context, "14325", 0.03, CustomColors.customBlack),
+                child: text(
+                    context,
+                    "Order no #" + snapshot[index]["custRefNo"].toString(),
+                    0.03,
+                    CustomColors.customBlack),
               )
             ],
           ),
-          text(context, "\$370", 0.04, CustomColors.customBlack, bold: true),
           text(
               context,
-              "Includes best practices that pros apply, as well as going over common mistakes that many Node.js developers make.",
-              0.03,
+              "\$" +
+                  double.parse(snapshot[index]["codAmount"])
+                      .toStringAsFixed(0),
+              0.04,
+              CustomColors.customBlack,
+              bold: true),
+          text(context, snapshot[index]["reviews"].toString(), 0.03,
               CustomColors.customLightBlack,
               bold: true),
           RatingBar.builder(
             glow: false,
-            initialRating: 3,
+            initialRating:
+                double.parse(snapshot[index]["rating"].toString()),
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -133,7 +166,7 @@ Widget completedOrderCard(context) {
             onRatingUpdate: (rating) {},
           ),
           InkWell(
-            onTap :()=>CustomRoutes().push(context,const RatingScreen()),
+            onTap: () => CustomRoutes().push(context, const RatingScreen()),
             child: Container(
               padding: EdgeInsets.symmetric(
                   horizontal: CustomSizes().dynamicWidth(context, 0.05),
@@ -144,7 +177,8 @@ Widget completedOrderCard(context) {
                   CustomSizes().dynamicWidth(context, 0.05),
                 ),
               ),
-              child: text(context, "RATE", 0.035, CustomColors.customBlack,bold:true),
+              child: text(context, "RATE", 0.035, CustomColors.customBlack,
+                  bold: true),
             ),
           )
         ],

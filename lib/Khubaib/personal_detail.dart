@@ -1,5 +1,5 @@
 import 'package:courierapp/Khubaib/change_password.dart';
-import 'package:courierapp/Screens/new_orders.dart';
+import 'package:courierapp/Screens/login.dart';
 import 'package:courierapp/Screens/registration.dart';
 import 'package:courierapp/Widgets/colorful_button.dart';
 import 'package:courierapp/utils/app_routes.dart';
@@ -8,26 +8,50 @@ import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 
 class PersonalDetails extends StatefulWidget {
-  const PersonalDetails({Key? key}) : super(key: key);
+  final Map riderDetails;
+  const PersonalDetails({Key? key, required this.riderDetails})
+      : super(key: key);
 
   @override
   _PersonalDetailsState createState() => _PersonalDetailsState();
 }
 
 class _PersonalDetailsState extends State<PersonalDetails> {
+  final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppbar(
+          context: context,
+          text1: "Personal Details",
+          automaticallyImplyLeading: true,
+          backgroundColor: CustomColors.customYellow),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          topBar(context, "Personal Details"),
           CustomSizes().heightBox(context, 0.09),
-          registerInputField(context, "Last name"),
-          registerInputField(context, "First name"),
-          registerInputField(context, "Middle name"),
-          registerInputField(context, "Mobile number"),
-          registerInputField(context, "Email"),
+          Hero(
+            tag: 1,
+            child: CircleAvatar(
+              radius: CustomSizes().dynamicWidth(context, 0.1),
+              backgroundImage: NetworkImage(widget.riderDetails["image"]),
+            ),
+          ),
+          registerInputField(
+              context, "Name", _controller, widget.riderDetails["name"],
+              enable: false),
+          registerInputField(
+              context, "Type", _controller, widget.riderDetails["type"],
+              enable: false),
+          registerInputField(
+              context, "Cnic", _controller, widget.riderDetails["nic"],
+              enable: false),
+          registerInputField(context, "Mobile number", _controller,
+              widget.riderDetails["phone"],
+              enable: false),
+          registerInputField(
+              context, "Email", _controller, widget.riderDetails["email"],
+              enable: false),
           CustomSizes().heightBox(context, 0.05),
           InkWell(
             onTap: () => CustomRoutes().push(
@@ -53,7 +77,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 horizontal: CustomSizes().dynamicWidth(context, 0.05)),
             child: colorfulButton(
                 context,
-                "Register",
+                "Edit Profile",
                 CustomColors.customYellow,
                 CustomColors.customYellow,
                 FontWeight.bold),
