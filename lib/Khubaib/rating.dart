@@ -5,6 +5,7 @@ import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RatingScreen extends StatefulWidget {
   const RatingScreen({Key? key}) : super(key: key);
@@ -69,69 +70,38 @@ Widget personCard(context,
     marginline = false,
     phoneIcon = false,
     containerColor = true}) {
-  return Container(
+  return Padding(
     padding: EdgeInsets.symmetric(
-      // vertical: CustomSizes().dynamicHeight(context, 0),
-      horizontal: CustomSizes().dynamicWidth(context, 0.05),
-    ),
-    width: CustomSizes().dynamicWidth(context, 1),
-    height: CustomSizes().dynamicHeight(context, 0.1),
-    margin: marginline == true
-        ? EdgeInsets.symmetric(
-            vertical: CustomSizes().dynamicHeight(context, 0.01))
-        : EdgeInsets.symmetric(
-            vertical: CustomSizes().dynamicHeight(context, 0)),
-    color: containerColor == true
-        ? CustomColors.customWhite
-        : CustomColors.noColor,
+        horizontal: CustomSizes().dynamicWidth(context, 0.02)),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        icon == true
-            ? Container(
-                width: CustomSizes().dynamicWidth(context, 0.12),
-                height: CustomSizes().dynamicHeight(context, 0.06),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.customYellow),
-                  borderRadius: BorderRadius.circular(
-                    CustomSizes().dynamicWidth(context, 0.025),
-                  ),
-                ),
-                child: const Icon(
-                  Icons.person,
-                  color: CustomColors.customYellow,
-                ))
-            : Container(
-                width: CustomSizes().dynamicWidth(context, 0.2),
-                height: CustomSizes().dynamicHeight(context, 0.1),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    CustomSizes().dynamicWidth(context, 0.025),
-                  ),
-                  image: const DecorationImage(
-                      image: NetworkImage(
-                          "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                      fit: BoxFit.fitWidth),
-                ),
-              ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            text(context, "    $name", 0.04, CustomColors.customBlack,
-                bold: true),
-            CustomSizes().heightBox(context, 0.02),
-            text(context, "    $phone", 0.04, CustomColors.customBlack,
-                bold: true)
-          ],
+        Container(
+          width: CustomSizes().dynamicWidth(context, 0.2),
+          height: CustomSizes().dynamicHeight(context, 0.1),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              CustomSizes().dynamicWidth(context, 0.025),
+            ),
+            image: const DecorationImage(
+              image: AssetImage("assets/userPicture.png"),
+            ),
+          ),
         ),
-        CustomSizes().widthBox(context, 0.3),
-        phoneIcon == true
-            ? const Icon(
-                Icons.phone,
-                color: CustomColors.customGreen,
-              )
-            : CustomSizes().widthBox(context, 0.1),
+        FittedBox(
+          child: text(
+              context, "    $name\n    $phone", 0.04, CustomColors.customBlack,
+              bold: true),
+        ),
+        InkWell(
+          onTap: () async {
+            await launch("tel:$phone");
+          },
+          child: const Icon(
+            Icons.phone,
+            color: CustomColors.customGreen,
+          ),
+        )
       ],
     ),
   );

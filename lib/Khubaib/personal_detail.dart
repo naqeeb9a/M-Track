@@ -1,11 +1,16 @@
-import 'package:courierapp/Khubaib/change_password.dart';
+import 'dart:convert';
+
 import 'package:courierapp/Screens/login.dart';
-import 'package:courierapp/Screens/registration.dart';
+
 import 'package:courierapp/Widgets/colorful_button.dart';
+import 'package:courierapp/Widgets/input_buttons.dart';
 import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Screens/change_password.dart';
 
 class PersonalDetails extends StatefulWidget {
   final Map riderDetails;
@@ -54,10 +59,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               enable: false),
           CustomSizes().heightBox(context, 0.05),
           InkWell(
-            onTap: () => CustomRoutes().push(
-              context,
-              const ChangePassword(),
-            ),
+            onTap: () async {
+              SharedPreferences userData =
+                  await SharedPreferences.getInstance();
+              var riderData = jsonDecode(userData.getString("user").toString());
+              CustomRoutes().push(
+                context,
+                ChangePassword(
+                  email: riderData["data"]["email"],
+                ),
+              );
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: CustomSizes().dynamicWidth(context, 0.05)),

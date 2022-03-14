@@ -8,17 +8,20 @@ import 'package:courierapp/backend/orders.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
   final List snapshot;
   final int index;
-  const TakePictureScreen({
-    Key? key,
-    required this.camera,
-    required this.snapshot,
-    required this.index,
-  }) : super(key: key);
+  final dynamic refreshState;
+  const TakePictureScreen(
+      {Key? key,
+      required this.camera,
+      required this.snapshot,
+      required this.index,
+      required this.refreshState})
+      : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -27,6 +30,7 @@ class TakePictureScreen extends StatefulWidget {
 class TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  bool isloading = false;
 
   @override
   void initState() {
@@ -68,16 +72,25 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                    child: CameraPreview(_controller)),
+                isloading == true
+                    ? Column(
+                        children: [
+                          LottieBuilder.asset("assets/image.json"),
+                          text(context, "Sending picture", 0.04,
+                              CustomColors.customWhite)
+                        ],
+                      )
+                    : ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20)),
+                        child: CameraPreview(_controller)),
                 ClickPicture(
                   controller: _controller,
                   initializeControllerFuture: _initializeControllerFuture,
                   snapshot: widget.snapshot,
                   index: widget.index,
+                  refreshState: widget.refreshState,
                 ),
                 text(context, "Photo", 0.04, CustomColors.customYellow),
                 const SizedBox(
@@ -99,13 +112,15 @@ class ClickPicture extends StatefulWidget {
   final List snapshot;
   final int index;
   final CameraController controller;
+  final dynamic refreshState;
   final Future<void> initializeControllerFuture;
   const ClickPicture(
       {Key? key,
       required this.controller,
       required this.initializeControllerFuture,
       required this.snapshot,
-      required this.index})
+      required this.index,
+      required this.refreshState})
       : super(key: key);
 
   @override
@@ -131,6 +146,7 @@ class _ClickPictureState extends State<ClickPicture> {
           // Attempt to take a picture and get the file `image`
           // where it was saved.
           final XFile image = await widget.controller.takePicture();
+          widget.controller.pausePreview();
           final encodeImage = base64Encode(await image.readAsBytes());
           var res = await RiderFunctionality().setOrderStatus(
               "update-order",
@@ -138,10 +154,13 @@ class _ClickPictureState extends State<ClickPicture> {
               "returned-pending",
               img: encodeImage);
           if (res == false) {
+            widget.controller.resumePreview();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: text(context, "Check your internt or try again", 0.04,
                     CustomColors.customWhite)));
           } else {
+            Navigator.pop(context);
+            Navigator.pop(context, widget.refreshState());
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content:
                     text(context, "Success", 0.04, CustomColors.customWhite)));
@@ -155,6 +174,7 @@ class _ClickPictureState extends State<ClickPicture> {
           setState(() {
             isLoading = false;
           });
+          widget.controller.resumePreview();
           // If an error occurs, log the error to the console.
           debugPrint(e.toString());
         }

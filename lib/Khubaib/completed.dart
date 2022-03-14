@@ -78,7 +78,8 @@ Widget completedOrder(context, setState) {
                 ),
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return completedOrderCard(context, snapshot.data, index, setState);
+                  return completedOrderCard(
+                      context, snapshot.data, index, setState);
                 },
               );
             }
@@ -117,8 +118,8 @@ Widget completedOrderCard(
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              text(context, snapshot[index]["updated_at"].toString(),
-                  0.035, CustomColors.customGrey,
+              text(context, snapshot[index]["updated_at"].toString(), 0.035,
+                  CustomColors.customGrey,
                   bold: true),
               Container(
                 padding: EdgeInsets.symmetric(
@@ -141,29 +142,29 @@ Widget completedOrderCard(
           text(
               context,
               "\$" +
-                  double.parse(snapshot[index]["codAmount"])
-                      .toStringAsFixed(0),
+                  double.parse(snapshot[index]["codAmount"]).toStringAsFixed(0),
               0.04,
               CustomColors.customBlack,
               bold: true),
           text(context, snapshot[index]["reviews"].toString(), 0.03,
               CustomColors.customLightBlack,
               bold: true),
-          RatingBar.builder(
-            glow: false,
-            initialRating:
-                double.parse(snapshot[index]["rating"].toString()),
-            minRating: 1,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemSize: CustomSizes().dynamicWidth(context, 0.05),
-            unratedColor: CustomColors.customGrey,
-            itemBuilder: (context, _) => const Icon(
-              Icons.star_rounded,
-              color: CustomColors.customYellow,
+          IgnorePointer(
+            ignoring: true,
+            child: RatingBar.builder(
+              glow: false,
+              initialRating: double.parse(snapshot[index]["rating"].toString()),
+              minRating: 1,
+              direction: Axis.horizontal,
+              itemCount: 5,
+              itemSize: CustomSizes().dynamicWidth(context, 0.05),
+              unratedColor: CustomColors.customGrey,
+              itemBuilder: (context, _) => const Icon(
+                Icons.star_rounded,
+                color: CustomColors.customYellow,
+              ),
+              onRatingUpdate: (rating) {},
             ),
-            onRatingUpdate: (rating) {},
           ),
           InkWell(
             onTap: () => CustomRoutes().push(context, const RatingScreen()),

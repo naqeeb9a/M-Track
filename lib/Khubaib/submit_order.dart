@@ -5,6 +5,7 @@ import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubmitOrder extends StatefulWidget {
   const SubmitOrder({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class _SubmitOrderState extends State<SubmitOrder> {
               shrinkWrap: true,
               itemCount: 5,
               itemBuilder: (BuildContext context, int index) {
-                return orderCard(context, index, "","");
+                return orderCard(context, index, "", "");
               },
             ),
           )
@@ -57,7 +58,7 @@ class _SubmitOrderState extends State<SubmitOrder> {
   }
 }
 
-Widget orderCard(context, index, text1,mobileNumber, {icon = false}) {
+Widget orderCard(context, index, text1, mobileNumber, {icon = false}) {
   return Container(
     margin: EdgeInsets.symmetric(
         vertical: CustomSizes().dynamicHeight(context, 0.01)),
@@ -96,9 +97,14 @@ Widget orderCard(context, index, text1,mobileNumber, {icon = false}) {
                     ],
                   ),
                   icon == true
-                      ? const Icon(
-                          Icons.phone,
-                          color: CustomColors.customGreen,
+                      ? InkWell(
+                          onTap: () async {
+                            await launch("tel:$mobileNumber");
+                          },
+                          child: const Icon(
+                            Icons.phone,
+                            color: CustomColors.customGreen,
+                          ),
                         )
                       : Container(),
                 ],

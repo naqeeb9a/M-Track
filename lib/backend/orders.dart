@@ -43,7 +43,6 @@ class RiderFunctionality {
                   "house_pic": img
                 }));
       var jsonData = jsonDecode(res.body);
-
       if (res.statusCode == 200) {
         return img == "" ? jsonData["message"] : jsonData;
       } else {
@@ -92,6 +91,69 @@ class RiderFunctionality {
         return false;
       }
     } catch (e) {
+      return false;
+    }
+  }
+
+  requestOtp(String email) async {
+    try {
+      var res = await http.post(
+          Uri.parse("http://mtrack.mtechtesting.com/api/otp-request"),
+          body: {
+            "email": email,
+          });
+      var jsonData = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        return jsonData["data"]["uniqueId"];
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  validateOTP(uniqueId, otp) async {
+    try {
+      var res = await http.post(
+          Uri.parse("http://mtrack.mtechtesting.com/api/otp-validate"),
+          body: {
+            "uniqueId": uniqueId,
+            "otp": otp,
+          });
+      var jsonData = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        return jsonData;
+      } else if (res.statusCode == 401) {
+        return "error";
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  resetPassword(String email, String password, String cPassword) async {
+    try {
+      var res = await http.post(
+          Uri.parse("http://mtrack.mtechtesting.com/api/rider-password-reset"),
+          body: {
+            "email": email,
+            "new_password": password,
+            "c_password": cPassword
+          });
+      var jsonData = jsonDecode(res.body);
+      print(jsonData);
+      if (res.statusCode == 200) {
+        return jsonData;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
       return false;
     }
   }

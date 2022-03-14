@@ -1,12 +1,15 @@
 import 'dart:convert';
 
-import 'package:courierapp/Screens/registration.dart';
+import 'package:courierapp/Screens/forgot_password.dart';
 import 'package:courierapp/Screens/tab_bar.dart';
+import 'package:courierapp/Widgets/input_buttons.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/backend/login_function.dart';
+import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,7 +61,26 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               registerInputField(
                   context, "Password", _password, "Enter your password",
                   password: true, enable: fieldEnable),
-              CustomSizes().heightBox(context, 0.3),
+              CustomSizes().heightBox(context, 0.1),
+              InkWell(
+                onTap: () => CustomRoutes().push(
+                  context,
+                  const ForgotPassword(),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: CustomSizes().dynamicWidth(context, 0.05)),
+                  child: Text(
+                    'Change your Password',
+                    style: TextStyle(
+                      fontSize: CustomSizes().dynamicHeight(context, 0.015),
+                      fontWeight: FontWeight.w700,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
+              CustomSizes().heightBox(context, 0.1),
               Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: CustomSizes().dynamicWidth(context, 0.05)),
@@ -132,15 +154,29 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   }
 }
 
-customAppbar(
-    {required BuildContext context,
-    required String text1,
-    required bool automaticallyImplyLeading,
-    required Color backgroundColor}) {
+customAppbar({
+  required BuildContext context,
+  required String text1,
+  required bool automaticallyImplyLeading,
+  required Color backgroundColor,
+  directionVisibility = false,
+  latitude,
+  longitude,
+}) {
   return AppBar(
     automaticallyImplyLeading: automaticallyImplyLeading,
     backgroundColor: backgroundColor,
     centerTitle: true,
     title: text(context, text1, 0.04, CustomColors.customBlack),
+    actions: [
+      Visibility(
+        visible: directionVisibility,
+        child: IconButton(
+            onPressed: () {
+              MapsLauncher.launchCoordinates(latitude, longitude);
+            },
+            icon: const Icon(Icons.directions)),
+      )
+    ],
   );
 }
