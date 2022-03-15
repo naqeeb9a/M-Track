@@ -10,9 +10,11 @@ import '../Widgets/text_widget.dart';
 
 class ChangePassword extends StatefulWidget {
   final String email;
+  final bool changePasswordScreen;
   const ChangePassword({
     Key? key,
     required this.email,
+    this.changePasswordScreen = false,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   final currentPassword = TextEditingController();
   final newPassword = TextEditingController();
   final confirmPassword = TextEditingController();
+  bool enable = true;
 
   @override
   Widget build(BuildContext context) {
@@ -63,54 +66,159 @@ class _ChangePasswordState extends State<ChangePassword> {
             ),
             Column(
               children: [
-                registerInputField(context, "New Password", newPassword,
-                    "Enter your new password"),
+                Visibility(
+                  visible: widget.changePasswordScreen,
+                  child: RegisterInputField(
+                      context: context,
+                      text1: "Current Password",
+                      controller: currentPassword,
+                      hintText: "Enter your current password",
+                      password: true,
+                      enable: enable),
+                ),
                 const SizedBox(
                   height: 5,
                 ),
-                registerInputField(context, "Confirm New Password",
-                    confirmPassword, "Confirm your new password"),
+                RegisterInputField(
+                    context: context,
+                    text1: "New Password",
+                    controller: newPassword,
+                    hintText: "Enter your new password",
+                    password: true,
+                    enable: enable),
+                const SizedBox(
+                  height: 5,
+                ),
+                RegisterInputField(
+                    context: context,
+                    text1: "Confirm New Password",
+                    controller: confirmPassword,
+                    hintText: "Confirm your new password",
+                    password: true,
+                    enable: enable),
               ],
             ),
             RoundedLoadingButton(
               color: CustomColors.customYellow,
               controller: _buttonController,
               onPressed: () async {
-                if (newPassword.text.isEmpty || confirmPassword.text.isEmpty) {
-                  _buttonController.reset();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: text(context, "Password fields cannot be empty",
-                          0.04, CustomColors.customWhite)));
-                } else if (newPassword.text != confirmPassword.text) {
-                  _buttonController.reset();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: text(context, "Both passwords are not same",
-                          0.04, CustomColors.customWhite)));
-                } else if (newPassword.text.length < 6) {
-                  _buttonController.reset();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: text(
-                          context,
-                          "password cannot be less than 6 characters",
-                          0.04,
-                          CustomColors.customWhite)));
-                } else {
-                  var res = await RiderFunctionality().resetPassword(
-                      widget.email, newPassword.text, confirmPassword.text);
-                  if (res == false) {
+                setState(() {
+                  enable = false;
+                });
+                if (widget.changePasswordScreen == true) {
+                  if (newPassword.text.isEmpty ||
+                      confirmPassword.text.isEmpty ||
+                      currentPassword.text.isEmpty) {
+                    setState(() {
+                      enable = true;
+                    });
                     _buttonController.reset();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: text(context, "check your internet", 0.04,
-                            CustomColors.customWhite)));
-                  } else {
-                    _buttonController.reset();
-                    CustomRoutes().pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: text(
                             context,
-                            "successfully reset password login with your new password",
+                            "Password fields cannot be empty",
                             0.04,
                             CustomColors.customWhite)));
+                  } else if (newPassword.text != confirmPassword.text) {
+                    setState(() {
+                      enable = true;
+                    });
+                    _buttonController.reset();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: text(context, "Both passwords are not same",
+                            0.04, CustomColors.customWhite)));
+                  } else if (newPassword.text.length < 6) {
+                    setState(() {
+                      enable = true;
+                    });
+                    _buttonController.reset();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: text(
+                            context,
+                            "password cannot be less than 6 characters",
+                            0.04,
+                            CustomColors.customWhite)));
+                  } else {
+                    var res = await RiderFunctionality().changePassword(
+                        widget.email, currentPassword.text, newPassword.text);
+                    if (res == false) {
+                      setState(() {
+                        enable = true;
+                      });
+                      _buttonController.reset();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: text(context, "check your internet", 0.04,
+                              CustomColors.customWhite)));
+                    } else {
+                      setState(() {
+                        enable = true;
+                      });
+                      _buttonController.reset();
+                      CustomRoutes().pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: text(
+                              context,
+                              "Successfully changed password",
+                              0.04,
+                              CustomColors.customWhite)));
+                    }
+                  }
+                } else {
+                  if (newPassword.text.isEmpty ||
+                      confirmPassword.text.isEmpty) {
+                    setState(() {
+                      enable = true;
+                    });
+                    _buttonController.reset();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: text(
+                            context,
+                            "Password fields cannot be empty",
+                            0.04,
+                            CustomColors.customWhite)));
+                  } else if (newPassword.text != confirmPassword.text) {
+                    setState(() {
+                      enable = true;
+                    });
+                    _buttonController.reset();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: text(context, "Both passwords are not same",
+                            0.04, CustomColors.customWhite)));
+                  } else if (newPassword.text.length < 6) {
+                    setState(() {
+                      enable = true;
+                    });
+                    _buttonController.reset();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: text(
+                            context,
+                            "password cannot be less than 6 characters",
+                            0.04,
+                            CustomColors.customWhite)));
+                  } else {
+                    var res = await RiderFunctionality().resetPassword(
+                        widget.email, newPassword.text, confirmPassword.text);
+                    if (res == false) {
+                      setState(() {
+                        enable = true;
+                      });
+                      _buttonController.reset();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: text(context, "check your internet", 0.04,
+                              CustomColors.customWhite)));
+                    } else {
+                      setState(() {
+                        enable = true;
+                      });
+                      _buttonController.reset();
+                      CustomRoutes().pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: text(
+                              context,
+                              "successfully reset password login with your new password",
+                              0.04,
+                              CustomColors.customWhite)));
+                    }
                   }
                 }
               },

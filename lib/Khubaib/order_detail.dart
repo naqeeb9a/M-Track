@@ -145,12 +145,15 @@ class _OrderDetailState extends State<OrderDetail> {
                     _buttonController1.reset();
                   } else {
                     _buttonController1.reset();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
                         content: text(
                             context,
                             "You are not near enough to the location",
                             0.04,
-                            CustomColors.customWhite)));
+                            CustomColors.customWhite),
+                      ),
+                    );
                   }
                 },
                 child: text(

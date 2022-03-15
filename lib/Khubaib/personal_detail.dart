@@ -42,20 +42,35 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               backgroundImage: NetworkImage(widget.riderDetails["image"]),
             ),
           ),
-          registerInputField(
-              context, "Name", _controller, widget.riderDetails["name"],
+          RegisterInputField(
+              context: context,
+              text1: "Name",
+              controller: _controller,
+              hintText: widget.riderDetails["name"],
               enable: false),
-          registerInputField(
-              context, "Type", _controller, widget.riderDetails["type"],
+          RegisterInputField(
+              context: context,
+              text1: "Type",
+              controller: _controller,
+              hintText: widget.riderDetails["type"],
               enable: false),
-          registerInputField(
-              context, "Cnic", _controller, widget.riderDetails["nic"],
+          RegisterInputField(
+              context: context,
+              text1: "Cnic",
+              controller: _controller,
+              hintText: widget.riderDetails["nic"],
               enable: false),
-          registerInputField(context, "Mobile number", _controller,
-              widget.riderDetails["phone"],
+          RegisterInputField(
+              context: context,
+              text1: "Mobile number",
+              controller: _controller,
+              hintText: widget.riderDetails["phone"],
               enable: false),
-          registerInputField(
-              context, "Email", _controller, widget.riderDetails["email"],
+          RegisterInputField(
+              context: context,
+              text1: "Email",
+              controller: _controller,
+              hintText: widget.riderDetails["email"],
               enable: false),
           CustomSizes().heightBox(context, 0.05),
           InkWell(
@@ -67,6 +82,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 context,
                 ChangePassword(
                   email: riderData["data"]["email"],
+                  changePasswordScreen: true,
                 ),
               );
             },

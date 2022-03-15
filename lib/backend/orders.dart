@@ -146,14 +146,38 @@ class RiderFunctionality {
             "c_password": cPassword
           });
       var jsonData = jsonDecode(res.body);
-      print(jsonData);
       if (res.statusCode == 200) {
         return jsonData;
       } else {
         return false;
       }
     } catch (e) {
-      print(e);
+      return false;
+    }
+  }
+
+  changePassword(String email, String password, String cPassword) async {
+    SharedPreferences userData = await SharedPreferences.getInstance();
+    var riderData = jsonDecode(userData.getString("user").toString());
+    try {
+      var res = await http.post(
+          Uri.parse("http://mtrack.mtechtesting.com/api/changePassword"),
+          body: {
+            "email": email,
+            "current-password": cPassword,
+            "new_password": password
+          },
+          headers: {
+            "Authorization": "Bearer ${riderData["token"]}",
+          });
+      var jsonData = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        return jsonData;
+      } else {
+        return false;
+      }
+    } catch (e) {
       return false;
     }
   }

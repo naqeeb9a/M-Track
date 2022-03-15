@@ -55,12 +55,20 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                 width: CustomSizes().dynamicWidth(context, 0.8),
               ),
               CustomSizes().heightBox(context, 0.1),
-              registerInputField(context, "Email", _email, "Enter your email",
+              RegisterInputField(
+                  context: context,
+                  text1: "Email",
+                  controller: _email,
+                  hintText: "Enter your email",
                   enable: fieldEnable),
               CustomSizes().heightBox(context, 0.03),
-              registerInputField(
-                  context, "Password", _password, "Enter your password",
-                  password: true, enable: fieldEnable),
+              RegisterInputField(
+                  context: context,
+                  text1: "Password",
+                  controller: _password,
+                  hintText: "Enter your password",
+                  password: true,
+                  enable: fieldEnable),
               CustomSizes().heightBox(context, 0.1),
               InkWell(
                 onTap: () => CustomRoutes().push(
@@ -71,7 +79,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   padding: EdgeInsets.symmetric(
                       horizontal: CustomSizes().dynamicWidth(context, 0.05)),
                   child: Text(
-                    'Change your Password',
+                    'Forgot password',
                     style: TextStyle(
                       fontSize: CustomSizes().dynamicHeight(context, 0.015),
                       fontWeight: FontWeight.w700,

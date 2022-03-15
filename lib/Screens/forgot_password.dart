@@ -56,7 +56,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     CustomColors.customBlack),
               ],
             ),
-            registerInputField(context, "Email", email, "Enter your email",
+            RegisterInputField(context:context,text1: "Email",controller: email,hintText: "Enter your email",
                 enable: enable),
             RoundedLoadingButton(
               color: CustomColors.customYellow,

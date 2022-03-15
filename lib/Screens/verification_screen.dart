@@ -62,8 +62,11 @@ class _VerifyCodeState extends State<VerifyCode> {
                     CustomColors.customBlack),
               ],
             ),
-            registerInputField(context, "Verfication Code", verifyController,
-                "Example : 0001"),
+            RegisterInputField(
+                context: context,
+                text1: "Verfication Code",
+                controller: verifyController,
+                hintText: "Example : 0001"),
             RoundedLoadingButton(
               color: CustomColors.customYellow,
               controller: _buttonController,
@@ -99,7 +102,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                     _buttonController.reset();
                     CustomRoutes().pop(context);
                     CustomRoutes().pop(context);
-                    CustomRoutes().push(context,  ChangePassword(email:widget.email ));
+                    CustomRoutes()
+                        .push(context, ChangePassword(email: widget.email));
                   }
                 }
               },
