@@ -23,7 +23,7 @@ class RiderFunctionality {
     }
   }
 
-  setOrderStatus(query, trackingNumber, status, {img = ""}) async {
+  setOrderStatus(query, trackingNumber, status, {img = "", reason = ""}) async {
     SharedPreferences userData = await SharedPreferences.getInstance();
     var riderData = jsonDecode(userData.getString("user").toString());
     try {
@@ -33,18 +33,49 @@ class RiderFunctionality {
             "Authorization": "Bearer ${riderData["token"]}",
             "Content-Type": "application/json"
           },
-          body: img == ""
-              ? jsonEncode(
-                  {"tracking_number": trackingNumber, "status": status})
-              : jsonEncode({
-                  "tracking_number": trackingNumber,
-                  "status": status,
-                  "reason": "not home",
-                  "house_pic": img
-                }));
+          body: jsonEncode({
+            "tracking_number": trackingNumber,
+            "status": status,
+            "reason": reason,
+            "house_pic": img == "" ? "" : img
+          }));
       var jsonData = jsonDecode(res.body);
       if (res.statusCode == 200) {
         return img == "" ? jsonData["message"] : jsonData;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  deliverOrderStatus(
+    query,
+    trackingNumber,
+    status,
+    signature,
+    paymentMethod,
+  ) async {
+    SharedPreferences userData = await SharedPreferences.getInstance();
+    var riderData = jsonDecode(userData.getString("user").toString());
+    try {
+      var res = await http.post(
+          Uri.parse("http://mtrack.mtechtesting.com/api/$query"),
+          headers: {
+            "Authorization": "Bearer ${riderData["token"]}",
+            "Content-Type": "application/json"
+          },
+          body: jsonEncode({
+            "tracking_number": trackingNumber,
+            "status": status,
+            "signature": signature,
+            "payment_method": paymentMethod
+          }));
+      var jsonData = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        return jsonData;
       } else {
         return false;
       }
@@ -178,6 +209,33 @@ class RiderFunctionality {
         return false;
       }
     } catch (e) {
+      return false;
+    }
+  }
+
+  sendLiveLocation(lat, lng, orderId) async {
+    SharedPreferences userData = await SharedPreferences.getInstance();
+    var riderData = jsonDecode(userData.getString("user").toString());
+    try {
+      var res = await http.post(
+          Uri.parse("http://mtrack.mtechtesting.com/api/track-location-rider"),
+          headers: {
+            "Authorization": "Bearer ${riderData["token"]}",
+          },
+          body: {
+            "rider_id": riderData["data"]["id"].toString(),
+            "order_id": orderId.toString(),
+            "lat": lat.toString(),
+            "lng": lng.toString()
+          });
+      var jsonData = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return jsonData;
+      } else {
+        return false;
+      }
+    } catch (e) {
+    
       return false;
     }
   }

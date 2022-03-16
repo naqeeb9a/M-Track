@@ -1,5 +1,6 @@
 import 'package:courierapp/Khubaib/active_order.dart';
 import 'package:courierapp/Khubaib/completed.dart';
+import 'package:courierapp/Khubaib/pending_orders.dart';
 import 'package:courierapp/Screens/login.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
@@ -16,7 +17,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
           appBar: customAppbar(
               context: context,
@@ -33,8 +34,9 @@ class _OrderScreenState extends State<OrderScreen> {
                   labelColor: CustomColors.customBlack,
                   unselectedLabelColor: CustomColors.customGrey,
                   tabs: [
-                    Tab(text: "ACTIVE"),
-                    Tab(text: "COMPLETED"),
+                    Tab(text: "Active"),
+                    Tab(text: "Pending"),
+                    Tab(text: "Completed"),
                   ],
                 ),
               ),
@@ -42,6 +44,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 child: TabBarView(
                   children: [
                     ActiveOrder(),
+                    PendingOrders(),
                     CompletedOrder(),
                   ],
                 ),

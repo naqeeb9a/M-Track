@@ -1,5 +1,4 @@
 import 'package:courierapp/Khubaib/order_detail.dart';
-import 'package:courierapp/Khubaib/rating.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
@@ -29,7 +28,9 @@ class _CompletedOrderState extends State<CompletedOrder>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: completedOrder(context, setState),
+      body: completedOrder(context, () {
+        setState(() {});
+      }),
     );
   }
 }
@@ -67,10 +68,12 @@ Widget completedOrder(context, setState) {
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data == false) {
-              return retry(context);
+              return retry(context, setState);
             } else if (snapshot.data.length == 0) {
-              return text(
-                  context, "No Active Orders", 0.04, CustomColors.customBlack);
+              return Center(
+                child: text(context, "No Active Orders", 0.04,
+                    CustomColors.customBlack),
+              );
             } else {
               return ListView.builder(
                 padding: EdgeInsets.symmetric(
@@ -118,7 +121,10 @@ Widget completedOrderCard(
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              text(context, snapshot[index]["updated_at"].toString(), 0.035,
+              text(
+                  context,
+                  snapshot[index]["updated_at"].toString().substring(0, 10),
+                  0.035,
                   CustomColors.customGrey,
                   bold: true),
               Container(
@@ -153,7 +159,8 @@ Widget completedOrderCard(
             ignoring: true,
             child: RatingBar.builder(
               glow: false,
-              initialRating: double.parse(snapshot[index]["rating"].toString()),
+              initialRating:
+                  double.parse((snapshot[index]["rating"] ?? "0").toString()),
               minRating: 1,
               direction: Axis.horizontal,
               itemCount: 5,
@@ -166,22 +173,6 @@ Widget completedOrderCard(
               onRatingUpdate: (rating) {},
             ),
           ),
-          InkWell(
-            onTap: () => CustomRoutes().push(context, const RatingScreen()),
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: CustomSizes().dynamicWidth(context, 0.05),
-                  vertical: CustomSizes().dynamicHeight(context, 0)),
-              decoration: BoxDecoration(
-                color: CustomColors.customYellow,
-                borderRadius: BorderRadius.circular(
-                  CustomSizes().dynamicWidth(context, 0.05),
-                ),
-              ),
-              child: text(context, "RATE", 0.035, CustomColors.customBlack,
-                  bold: true),
-            ),
-          )
         ],
       ),
     ),

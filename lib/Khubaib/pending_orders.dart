@@ -9,14 +9,14 @@ import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ActiveOrder extends StatefulWidget {
-  const ActiveOrder({Key? key}) : super(key: key);
+class PendingOrders extends StatefulWidget {
+  const PendingOrders({Key? key}) : super(key: key);
 
   @override
-  _ActiveOrderState createState() => _ActiveOrderState();
+  _PendingOrdersState createState() => _PendingOrdersState();
 }
 
-class _ActiveOrderState extends State<ActiveOrder> {
+class _PendingOrdersState extends State<PendingOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,89 +27,26 @@ class _ActiveOrderState extends State<ActiveOrder> {
   }
 }
 
-Widget noActiverOrder(context) {
-  return Container(
-    width: CustomSizes().dynamicWidth(context, 1),
-    height: CustomSizes().dynamicHeight(context, 1),
-    color: CustomColors.customGrey.withOpacity(0.2),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        noactiveOrderCard(
-            context,
-            "https://www.pngkit.com/png/full/72-724560_png-file-tracking-parcel-png.png",
-            "Send Package",
-            "Deliver or recieve items such as gifts ,documents,keys",
-            CustomColors.customYellow),
-        CustomSizes().heightBox(context, 0.065),
-        noactiveOrderCard(
-            context,
-            "https://cdn0.iconfinder.com/data/icons/line-design-word-processing-set-3-1/21/mailing-recipient-list-512.png",
-            "I am Recipent",
-            "Track an incoming delivery in the app",
-            CustomColors.customBlack)
-      ],
-    ),
-  );
-}
-
-Widget noactiveOrderCard(context, image, title, subtitle, pngColor) {
-  return Container(
-    width: CustomSizes().dynamicWidth(context, 0.85),
-    height: CustomSizes().dynamicHeight(context, .15),
-    decoration: BoxDecoration(
-      color: CustomColors.customWhite,
-      borderRadius: BorderRadius.circular(
-        CustomSizes().dynamicWidth(context, 0.05),
-      ),
-    ),
-    child: Row(
-      children: [
-        SizedBox(
-          width: CustomSizes().dynamicWidth(context, 0.3),
-          height: CustomSizes().dynamicHeight(context, .1),
-          child: Image.network(
-            image,
-            color: pngColor,
-          ),
-        ),
-        Flexible(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              text(context, title, 0.045, CustomColors.customBlack, bold: true),
-              CustomSizes().heightBox(context, 0.02),
-              text(context, subtitle, 0.035, CustomColors.customGrey),
-            ],
-          ),
-        )
-      ],
-    ),
-  );
-}
-
 Widget activeOrder(context, setState) {
   return SizedBox(
     width: CustomSizes().dynamicWidth(context, 1),
     height: CustomSizes().dynamicHeight(context, 1),
     child: FutureBuilder(
-        future: RiderFunctionality().getRiderInfo(query: "active-order"),
+        future: RiderFunctionality().getRiderInfo(query: "pending-status"),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data == false) {
-              return retry(context,setState);
+              return retry(context, setState);
             } else if (snapshot.data.length == 0) {
               return Center(
-                child: text(context, "No Active Orders", 0.04,
+                child: text(context, "No pending Orders", 0.04,
                     CustomColors.customBlack),
               );
             } else {
               List pickedOrders = [];
               List newOrders = [];
               for (var item in snapshot.data) {
-                if (item["status"] == "assigned") {
+                if (item["status"] == "delivered-pending") {
                   newOrders.add(item);
                 } else {
                   pickedOrders.add(item);
@@ -134,8 +71,8 @@ Widget activeOrder(context, setState) {
                             onSelected: (value) => changeState(() {
                                   isSelected1 = value;
                                 }),
-                            label:
-                                text(context, "New Orders", 0.03, Colors.black),
+                            label: text(context, "Delivered Pending", 0.03,
+                                Colors.black),
                             selected: isSelected1),
                         const SizedBox(
                           width: 20,
@@ -145,8 +82,8 @@ Widget activeOrder(context, setState) {
                                   isSelected2 = value;
                                 }),
                             selectedColor: CustomColors.customYellow,
-                            label: text(
-                                context, "Picked Orders", 0.03, Colors.black),
+                            label: text(context, "Returned Pending", 0.03,
+                                Colors.black),
                             selected: isSelected2),
                       ],
                     ),
@@ -200,14 +137,12 @@ Widget activeOrderCard(BuildContext context, snapshot, index, setState) {
     },
     child: Container(
       margin: const EdgeInsets.all(5),
-      width: CustomSizes().dynamicWidth(context, 1),
-      height: CustomSizes().dynamicHeight(context, 0.24),
       padding: EdgeInsets.symmetric(
         horizontal: CustomSizes().dynamicWidth(context, 0.05),
         vertical: CustomSizes().dynamicHeight(context, 0.01),
       ),
       decoration: BoxDecoration(
-          color: snapshot[index]["status"] == "assigned"
+          color: snapshot[index]["status"] == "returned-pending"
               ? Colors.red.withOpacity(0.05)
               : CustomColors.customGreen.withOpacity(0.05),
           border: Border.all(width: 2, color: Colors.grey),
@@ -255,11 +190,11 @@ Widget activeOrderCard(BuildContext context, snapshot, index, setState) {
             children: [
               text(
                   context,
-                  snapshot[index]["status"] == "assigned"
-                      ? "New Courier to pick"
-                      : "Delivering Courier",
+                  snapshot[index]["status"] == "returned-pending"
+                      ? "Waiting for you to return the parcel"
+                      : "Waiting for Accountant to approve",
                   0.035,
-                  snapshot[index]["status"] == "assigned"
+                  snapshot[index]["status"] == "returned-pending"
                       ? Colors.red
                       : CustomColors.customGreen,
                   bold: true),

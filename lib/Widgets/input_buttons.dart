@@ -33,6 +33,7 @@ class RegisterInputField extends StatefulWidget {
   final BuildContext context;
   final String text1, hintText;
   final TextEditingController controller;
+  final int maxLines;
 
   final bool password, enable;
   const RegisterInputField(
@@ -42,7 +43,8 @@ class RegisterInputField extends StatefulWidget {
       required this.hintText,
       required this.controller,
       this.password = false,
-      this.enable = true})
+      this.enable = true,
+      this.maxLines = 1})
       : super(key: key);
 
   @override
@@ -50,7 +52,7 @@ class RegisterInputField extends StatefulWidget {
 }
 
 class _RegisterInputFieldState extends State<RegisterInputField> {
-  bool isVisible = false;
+  bool isVisible = true;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,6 +67,7 @@ class _RegisterInputFieldState extends State<RegisterInputField> {
         TextFormField(
           controller: widget.controller,
           enabled: widget.enable,
+          maxLines: widget.maxLines,
           obscureText: widget.password == true ? isVisible : false,
           cursorColor: Colors.black,
           decoration: InputDecoration(

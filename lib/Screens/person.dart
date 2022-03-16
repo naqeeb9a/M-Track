@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:courierapp/Khubaib/help_center.dart';
 import 'package:courierapp/Khubaib/personal_detail.dart';
 import 'package:courierapp/Screens/login.dart';
 import 'package:courierapp/Screens/new_orders.dart';
@@ -168,8 +167,6 @@ class _ProfileState extends State<Profile> {
               "Contact Us",
               true,
               check2: true,
-              function: () =>
-                  CustomRoutes().push(context, const HelpCenterScreen()),
             ),
             CustomSizes().heightBox(context, 0.02),
             cards(context, Icons.logout, "Logout", true, check2: true,

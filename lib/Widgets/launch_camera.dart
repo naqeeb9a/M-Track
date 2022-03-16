@@ -15,12 +15,14 @@ class TakePictureScreen extends StatefulWidget {
   final List snapshot;
   final int index;
   final dynamic refreshState;
+  final String reason;
   const TakePictureScreen(
       {Key? key,
       required this.camera,
       required this.snapshot,
       required this.index,
-      required this.refreshState})
+      required this.refreshState,
+      required this.reason})
       : super(key: key);
 
   @override
@@ -91,6 +93,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                   snapshot: widget.snapshot,
                   index: widget.index,
                   refreshState: widget.refreshState,
+                  reason: widget.reason,
                 ),
                 text(context, "Photo", 0.04, CustomColors.customYellow),
                 const SizedBox(
@@ -113,6 +116,7 @@ class ClickPicture extends StatefulWidget {
   final int index;
   final CameraController controller;
   final dynamic refreshState;
+  final String reason;
   final Future<void> initializeControllerFuture;
   const ClickPicture(
       {Key? key,
@@ -120,7 +124,8 @@ class ClickPicture extends StatefulWidget {
       required this.initializeControllerFuture,
       required this.snapshot,
       required this.index,
-      required this.refreshState})
+      required this.refreshState,
+      required this.reason})
       : super(key: key);
 
   @override
@@ -148,11 +153,17 @@ class _ClickPictureState extends State<ClickPicture> {
           final XFile image = await widget.controller.takePicture();
           widget.controller.pausePreview();
           final encodeImage = base64Encode(await image.readAsBytes());
+          // if(widget.reason=="delivered")
+          // {
+
+          // }
+          // else{
           var res = await RiderFunctionality().setOrderStatus(
               "update-order",
               widget.snapshot[widget.index]["tracking_number"],
               "returned-pending",
-              img: encodeImage);
+              img: encodeImage,
+              reason: widget.reason);
           if (res == false) {
             widget.controller.resumePreview();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -165,6 +176,7 @@ class _ClickPictureState extends State<ClickPicture> {
                 content:
                     text(context, "Success", 0.04, CustomColors.customWhite)));
           }
+          // }
           // If the picture was taken, display it on a new screen.
 
           setState(() {

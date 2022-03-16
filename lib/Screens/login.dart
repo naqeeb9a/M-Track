@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:courierapp/Screens/forgot_password.dart';
+import 'package:courierapp/Screens/live_location.dart';
 import 'package:courierapp/Screens/tab_bar.dart';
 import 'package:courierapp/Widgets/input_buttons.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
@@ -9,7 +10,6 @@ import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -162,15 +162,15 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   }
 }
 
-customAppbar({
-  required BuildContext context,
-  required String text1,
-  required bool automaticallyImplyLeading,
-  required Color backgroundColor,
-  directionVisibility = false,
-  latitude,
-  longitude,
-}) {
+customAppbar(
+    {required BuildContext context,
+    required String text1,
+    required bool automaticallyImplyLeading,
+    required Color backgroundColor,
+    directionVisibility = false,
+    latitude,
+    longitude,
+    orderId}) {
   return AppBar(
     automaticallyImplyLeading: automaticallyImplyLeading,
     backgroundColor: backgroundColor,
@@ -181,9 +181,15 @@ customAppbar({
         visible: directionVisibility,
         child: IconButton(
             onPressed: () {
-              MapsLauncher.launchCoordinates(latitude, longitude);
+              CustomRoutes().push(
+                  context,
+                  LiveLocation(
+                    lat: latitude.toString(),
+                    long: longitude.toString(),
+                    orderId: orderId.toString(),
+                  ));
             },
-            icon: const Icon(Icons.directions)),
+            icon: const Icon(Icons.location_history)),
       )
     ],
   );

@@ -9,9 +9,14 @@ import '../Widgets/buttons.dart';
 import '../Widgets/text_widget.dart';
 import '../backend/orders.dart';
 
-class PickUpCenters extends StatelessWidget {
+class PickUpCenters extends StatefulWidget {
   const PickUpCenters({Key? key}) : super(key: key);
 
+  @override
+  State<PickUpCenters> createState() => _PickUpCentersState();
+}
+
+class _PickUpCentersState extends State<PickUpCenters> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +30,9 @@ class PickUpCenters extends StatelessWidget {
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.data == false) {
-                return retry(context);
+                return retry(context, () {
+                  setState(() {});
+                });
               } else if (snapshot.data.length == 0) {
                 return text(context, "No Pick-up Centers", 0.04,
                     CustomColors.customBlack);

@@ -1,10 +1,7 @@
-
 import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
-
-
 
 Widget coloredButton(context, text, color,
     {function = "", width = "", fontSize = 0.04, fontColor = true}) {
@@ -43,7 +40,7 @@ Widget coloredButton(context, text, color,
   );
 }
 
-Widget retry(context) {
+Widget retry(context, setstate) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +59,9 @@ Widget retry(context) {
           "Retry",
           CustomColors.customYellow,
           width: CustomSizes().dynamicWidth(context, .4),
-          function: () {},
+          function: () {
+            setstate();
+          },
         ),
       ],
     ),
