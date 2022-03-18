@@ -192,7 +192,7 @@ Widget activeOrderCard(BuildContext context, snapshot, index, setState) {
                   context,
                   snapshot[index]["status"] == "returned-pending"
                       ? "Waiting for you to return the parcel"
-                      : "Waiting for Accountant to approve",
+                      : "Waiting for approval",
                   0.035,
                   snapshot[index]["status"] == "returned-pending"
                       ? Colors.red

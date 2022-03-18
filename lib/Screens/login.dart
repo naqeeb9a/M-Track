@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:courierapp/Screens/forgot_password.dart';
-import 'package:courierapp/Screens/live_location.dart';
 import 'package:courierapp/Screens/tab_bar.dart';
 import 'package:courierapp/Widgets/input_buttons.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
@@ -162,35 +161,16 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   }
 }
 
-customAppbar(
-    {required BuildContext context,
-    required String text1,
-    required bool automaticallyImplyLeading,
-    required Color backgroundColor,
-    directionVisibility = false,
-    latitude,
-    longitude,
-    orderId}) {
+customAppbar({
+  required BuildContext context,
+  required String text1,
+  required bool automaticallyImplyLeading,
+  required Color backgroundColor,
+}) {
   return AppBar(
     automaticallyImplyLeading: automaticallyImplyLeading,
     backgroundColor: backgroundColor,
     centerTitle: true,
     title: text(context, text1, 0.04, CustomColors.customBlack),
-    actions: [
-      Visibility(
-        visible: directionVisibility,
-        child: IconButton(
-            onPressed: () {
-              CustomRoutes().push(
-                  context,
-                  LiveLocation(
-                    lat: latitude.toString(),
-                    long: longitude.toString(),
-                    orderId: orderId.toString(),
-                  ));
-            },
-            icon: const Icon(Icons.location_history)),
-      )
-    ],
   );
 }

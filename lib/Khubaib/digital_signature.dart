@@ -130,10 +130,10 @@ class _DigitalSignatureState extends State<DigitalSignature> {
                                                               .customWhite)));
                                             } else {
                                               _button.reset();
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                              Navigator.pop(context,
-                                                  widget.stateChange());
+                                              Navigator.popUntil(context,
+                                                  (route) => route.isFirst);
+
+                                              widget.stateChange();
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
                                                       content: text(
@@ -184,10 +184,9 @@ class _DigitalSignatureState extends State<DigitalSignature> {
                                                               .customWhite)));
                                             } else {
                                               _button.reset();
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                              Navigator.pop(context,
-                                                  widget.stateChange());
+                                              Navigator.popUntil(context,
+                                                  (route) => route.isFirst);
+                                              widget.stateChange();
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
                                                       content: text(

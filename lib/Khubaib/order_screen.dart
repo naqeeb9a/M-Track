@@ -2,6 +2,7 @@ import 'package:courierapp/Khubaib/active_order.dart';
 import 'package:courierapp/Khubaib/completed.dart';
 import 'package:courierapp/Khubaib/pending_orders.dart';
 import 'package:courierapp/Screens/login.dart';
+import 'package:courierapp/Screens/person.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,11 @@ class _OrderScreenState extends State<OrderScreen> {
           appBar: customAppbar(
               context: context,
               text1: "Orders",
-              automaticallyImplyLeading: false,
+              automaticallyImplyLeading: true,
               backgroundColor: CustomColors.customYellow),
+          drawer: const Drawer(
+            child: Profile(),
+          ),
           body: Column(
             children: [
               Container(

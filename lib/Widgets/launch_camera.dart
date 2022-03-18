@@ -170,8 +170,8 @@ class _ClickPictureState extends State<ClickPicture> {
                 content: text(context, "Check your internt or try again", 0.04,
                     CustomColors.customWhite)));
           } else {
-            Navigator.pop(context);
-            Navigator.pop(context, widget.refreshState());
+            Navigator.popUntil(context, (route) => route.isFirst);
+            widget.refreshState();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content:
                     text(context, "Success", 0.04, CustomColors.customWhite)));
