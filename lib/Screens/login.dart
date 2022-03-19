@@ -161,16 +161,56 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   }
 }
 
-customAppbar({
+AppBar customAppbar({
   required BuildContext context,
   required String text1,
   required bool automaticallyImplyLeading,
   required Color backgroundColor,
+  bool showRiderStatus = false,
 }) {
+  bool isActive = false;
+
+  getRiderInfo({Function? setstate}) async {
+    SharedPreferences isRiderActive = await SharedPreferences.getInstance();
+
+    if (isRiderActive.getBool("isActive") != null) {
+      isActive = isRiderActive.getBool("isActive")!;
+      setstate!();
+    } else {
+      isActive = false;
+      setstate!();
+    }
+  }
+
   return AppBar(
     automaticallyImplyLeading: automaticallyImplyLeading,
     backgroundColor: backgroundColor,
     centerTitle: true,
     title: text(context, text1, 0.04, CustomColors.customBlack),
+    actions: [
+      StatefulBuilder(builder: (context, changeState) {
+        getRiderInfo(setstate: () {
+          changeState(() {});
+        });
+        return Visibility(
+          visible: showRiderStatus,
+          child: Row(
+            children: [
+              Icon(
+                Icons.circle,
+                color: isActive == true ? CustomColors.customGreen : Colors.red,
+                size: 10,
+              ),
+              text(
+                  context,
+                  isActive == true ? "  Online   " : "  Offline   ",
+                  0.04,
+                  isActive == true ? CustomColors.customGreen : Colors.red,
+                  bold: true)
+            ],
+          ),
+        );
+      })
+    ],
   );
 }

@@ -21,10 +21,12 @@ class _OrderScreenState extends State<OrderScreen> {
       length: 3,
       child: Scaffold(
           appBar: customAppbar(
-              context: context,
-              text1: "Orders",
-              automaticallyImplyLeading: true,
-              backgroundColor: CustomColors.customYellow),
+            context: context,
+            text1: "Orders",
+            automaticallyImplyLeading: true,
+            backgroundColor: CustomColors.customYellow,
+            showRiderStatus: true,
+          ),
           drawer: const Drawer(
             child: Profile(),
           ),
@@ -38,7 +40,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   labelColor: CustomColors.customBlack,
                   unselectedLabelColor: CustomColors.customGrey,
                   tabs: [
-                    Tab(text: "Active"),
+                    Tab(text: "Assigned"),
                     Tab(text: "Pending"),
                     Tab(text: "Completed"),
                   ],

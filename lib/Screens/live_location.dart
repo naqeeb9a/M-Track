@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:camera/camera.dart';
 import 'package:courierapp/Khubaib/digital_signature.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
+import 'package:courierapp/backend/location_services.dart';
 import 'package:courierapp/backend/orders.dart';
 import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
@@ -49,7 +49,7 @@ class _LiveLocationState extends State<LiveLocation>
   late final AnimationController _controller;
 
   startSharingLiveLocation() async {
-    Position position = await _determinePosition();
+    Position position = await LocationFunctionality().determinePosition();
     _timer = Timer.periodic(const Duration(seconds: 10), (t) async {
       RiderFunctionality().sendLiveLocation(
           position.latitude, position.longitude, widget.orderId);
@@ -138,8 +138,9 @@ class _LiveLocationState extends State<LiveLocation>
                           text1: "Delivered",
                           controller: _buttonController,
                           function: () async {
-                            Position position = await _determinePosition();
-                            if (calculateDistance(
+                            Position position = await LocationFunctionality()
+                                .determinePosition();
+                            if (LocationFunctionality().calculateDistance(
                                   position.latitude,
                                   position.longitude,
                                   widget.snapshot[widget.index]["status"] ==
@@ -156,56 +157,15 @@ class _LiveLocationState extends State<LiveLocation>
                                           ["customer_lng"],
                                 ) >=
                                 0.5) {
-                              if (widget.snapshot[widget.index]["status"] ==
-                                  "assigned") {
-                                var res = await RiderFunctionality()
-                                    .setOrderStatus(
-                                        "update-order",
-                                        widget.snapshot[widget.index]
-                                            ["tracking_number"],
-                                        widget.snapshot[widget.index]
-                                                    ["status"] ==
-                                                "assigned"
-                                            ? "processing"
-                                            : "delivered-pending");
-                                if (res == false) {
-                                  _buttonController.reset();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: text(
-                                              context,
-                                              "Check your internt or tey again",
-                                              0.04,
-                                              CustomColors.customWhite)));
-                                } else {
-                                  _buttonController.reset();
-                                  Navigator.popUntil(
-                                      context, (route) => route.isFirst);
-                                  widget.stateChange();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: text(context, "Success",
-                                              0.04, CustomColors.customWhite)));
-                                }
-                              } else {
-                                CustomRoutes().push(
-                                    context,
-                                    DigitalSignature(
-                                      snapshot: widget.snapshot,
-                                      index: widget.index,
-                                      stateChange: widget.stateChange,
-                                    ));
-                              }
-                              _buttonController.reset();
-                            } else {
-                              _buttonController.reset();
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: text(
-                                      context,
-                                      "You are not near enough to the location",
-                                      0.04,
-                                      CustomColors.customWhite)));
+                              CustomRoutes().push(
+                                  context,
+                                  DigitalSignature(
+                                    snapshot: widget.snapshot,
+                                    index: widget.index,
+                                    stateChange: widget.stateChange,
+                                  ));
                             }
+                            _buttonController.reset();
                           }),
                       const SizedBox(
                         height: 10,
@@ -214,8 +174,9 @@ class _LiveLocationState extends State<LiveLocation>
                           text1: "Undelivered",
                           controller: _buttonController1,
                           function: () async {
-                            Position position = await _determinePosition();
-                            if (calculateDistance(
+                            Position position = await LocationFunctionality()
+                                .determinePosition();
+                            if (LocationFunctionality().calculateDistance(
                                   position.latitude,
                                   position.longitude,
                                   widget.snapshot[widget.index]["status"] ==
@@ -266,40 +227,6 @@ class _LiveLocationState extends State<LiveLocation>
         onPressed: function,
         color: CustomColors.customYellow,
         child: text(context, text1, 0.04, CustomColors.customWhite));
-  }
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
   }
 
   getReason() {

@@ -28,6 +28,7 @@ class _CompletedOrderState extends State<CompletedOrder>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.customYellow.withOpacity(0.2),
       body: completedOrder(context, () {
         setState(() {});
       }),
@@ -71,7 +72,7 @@ Widget completedOrder(context, setState) {
               return retry(context, setState);
             } else if (snapshot.data.length == 0) {
               return Center(
-                child: text(context, "No Active Orders", 0.04,
+                child: text(context, "No Completed Orders", 0.04,
                     CustomColors.customBlack),
               );
             } else {
@@ -104,14 +105,12 @@ Widget completedOrderCard(
           stateChange: setState,
         )),
     child: Container(
-      width: CustomSizes().dynamicWidth(context, 1),
-      height: CustomSizes().dynamicHeight(context, 0.19),
       padding: EdgeInsets.symmetric(
         horizontal: CustomSizes().dynamicWidth(context, 0.05),
-        vertical: CustomSizes().dynamicHeight(context, 0.01),
+        vertical: CustomSizes().dynamicHeight(context, 0.02),
       ),
       margin: EdgeInsets.symmetric(
-        vertical: CustomSizes().dynamicHeight(context, 0.0015),
+        vertical: CustomSizes().dynamicHeight(context, 0.02),
       ),
       color: CustomColors.customWhite,
       child: Column(

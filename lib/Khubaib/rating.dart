@@ -93,15 +93,17 @@ Widget personCard(context,
               context, "    $name\n    $phone", 0.04, CustomColors.customBlack,
               bold: true),
         ),
-        InkWell(
-          onTap: () async {
-            await launch("tel:$phone");
-          },
-          child: const Icon(
-            Icons.phone,
-            color: CustomColors.customGreen,
-          ),
-        )
+        (phoneIcon == true)
+            ? InkWell(
+                onTap: () async {
+                  await launch("tel:$phone");
+                },
+                child: const Icon(
+                  Icons.phone,
+                  color: CustomColors.customGreen,
+                ),
+              )
+            : Container()
       ],
     ),
   );

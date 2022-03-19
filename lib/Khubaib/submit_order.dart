@@ -58,7 +58,7 @@ class _SubmitOrderState extends State<SubmitOrder> {
   }
 }
 
-Widget orderCard(context, index, text1, mobileNumber, {icon = false}) {
+Widget orderCard(context, index, text1, String? mobileNumber, {icon = false}) {
   return Container(
     margin: EdgeInsets.symmetric(
         vertical: CustomSizes().dynamicHeight(context, 0.01)),
@@ -85,17 +85,9 @@ Widget orderCard(context, index, text1, mobileNumber, {icon = false}) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      text(context, "Today till:11.30", 0.04,
-                          CustomColors.customLightBlack,
-                          bold: true),
-                      text(context, mobileNumber, 0.04,
-                          CustomColors.customLightBlack,
-                          bold: true),
-                    ],
-                  ),
+                  text(context, mobileNumber ?? "not provided", 0.04,
+                      CustomColors.customLightBlack,
+                      bold: true),
                   icon == true
                       ? InkWell(
                           onTap: () async {

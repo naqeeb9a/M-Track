@@ -1,13 +1,13 @@
-import 'package:courierapp/Khubaib/order_detail.dart';
+import 'package:badges/badges.dart';
 import 'package:courierapp/Widgets/buttons.dart';
 import 'package:courierapp/Widgets/loader.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/backend/orders.dart';
-import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import 'active_order.dart';
 
 class PendingOrders extends StatefulWidget {
   const PendingOrders({Key? key}) : super(key: key);
@@ -20,6 +20,7 @@ class _PendingOrdersState extends State<PendingOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.customYellow.withOpacity(0.2),
       body: activeOrder(context, () {
         setState(() {});
       }),
@@ -66,27 +67,51 @@ Widget activeOrder(context, setState) {
                         const SizedBox(
                           width: 20,
                         ),
-                        ChoiceChip(
-                            selectedColor: CustomColors.customYellow,
-                            onSelected: (value) => changeState(() {
-                                  isSelected1 = value;
-                                }),
-                            label: text(context, "Delivered Pending", 0.03,
-                                Colors.black),
-                            selected: isSelected1),
+                        Badge(
+                          badgeContent: text(
+                              context,
+                              newOrders.length.toString(),
+                              0.03,
+                              CustomColors.customWhite),
+                          animationType: BadgeAnimationType.scale,
+                          child: ChoiceChip(
+                              selectedColor: CustomColors.customYellow,
+                              onSelected: (value) => changeState(() {
+                                    isSelected1 = value;
+                                  }),
+                              label: text(context, "Delivered Pending", 0.03,
+                                  Colors.black),
+                              selected: isSelected1),
+                        ),
                         const SizedBox(
                           width: 20,
                         ),
-                        ChoiceChip(
-                            onSelected: (value) => changeState(() {
-                                  isSelected2 = value;
-                                }),
-                            selectedColor: CustomColors.customYellow,
-                            label: text(context, "Returned Pending", 0.03,
-                                Colors.black),
-                            selected: isSelected2),
+                        Badge(
+                          badgeContent: text(
+                              context,
+                              pickedOrders.length.toString(),
+                              0.03,
+                              CustomColors.customWhite),
+                          animationType: BadgeAnimationType.scale,
+                          child: ChoiceChip(
+                              onSelected: (value) => changeState(() {
+                                    isSelected2 = value;
+                                  }),
+                              selectedColor: CustomColors.customYellow,
+                              label: text(context, "Returned Pending", 0.03,
+                                  Colors.black),
+                              selected: isSelected2),
+                        ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    text(
+                        context,
+                        "Total Orders : " + snapshot.data.length.toString(),
+                        0.04,
+                        CustomColors.customBlack),
                     const SizedBox(
                       height: 10,
                     ),
@@ -121,143 +146,5 @@ Widget activeOrder(context, setState) {
             return const Loader();
           }
         }),
-  );
-}
-
-Widget activeOrderCard(BuildContext context, snapshot, index, setState) {
-  return InkWell(
-    onTap: () {
-      CustomRoutes().push(
-          context,
-          OrderDetail(
-            snapshot: snapshot,
-            index: index,
-            stateChange: setState,
-          ));
-    },
-    child: Container(
-      margin: const EdgeInsets.all(5),
-      padding: EdgeInsets.symmetric(
-        horizontal: CustomSizes().dynamicWidth(context, 0.05),
-        vertical: CustomSizes().dynamicHeight(context, 0.01),
-      ),
-      decoration: BoxDecoration(
-          color: snapshot[index]["status"] == "returned-pending"
-              ? Colors.red.withOpacity(0.05)
-              : CustomColors.customGreen.withOpacity(0.05),
-          border: Border.all(width: 2, color: Colors.grey),
-          borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              text(
-                  context,
-                  "PKR. " +
-                      double.parse(snapshot[index]["codAmount"].toString())
-                          .toStringAsFixed(0),
-                  0.04,
-                  CustomColors.customBlack,
-                  bold: true),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: CustomSizes().dynamicWidth(context, 0.01),
-                ),
-                decoration: BoxDecoration(
-                  color: CustomColors.customGrey,
-                  borderRadius: BorderRadius.circular(
-                    CustomSizes().dynamicWidth(context, 0.05),
-                  ),
-                ),
-                child: text(
-                    context,
-                    "Order no #" + snapshot[index]["custRefNo"].toString(),
-                    0.03,
-                    CustomColors.customBlack),
-              )
-            ],
-          ),
-          text(context, snapshot[index]["consigneeName"].toString(), 0.04,
-              CustomColors.customBlack),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              text(
-                  context,
-                  snapshot[index]["status"] == "returned-pending"
-                      ? "Waiting for you to return the parcel"
-                      : "Waiting for approval",
-                  0.035,
-                  snapshot[index]["status"] == "returned-pending"
-                      ? Colors.red
-                      : CustomColors.customGreen,
-                  bold: true),
-              InkWell(
-                onTap: () async {
-                  await launch("tel:${snapshot[index]["consigneeMobNo"]}");
-                },
-                child: const Icon(
-                  Icons.phone,
-                  color: CustomColors.customGreen,
-                ),
-              )
-            ],
-          ),
-          text(context, "From :", 0.04, CustomColors.customBlack),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.circle_outlined,
-                color: CustomColors.customYellow,
-                size: CustomSizes().dynamicHeight(context, 0.015),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-                  child: text(
-                      context,
-                      snapshot[index]["pick_up_location"].toString(),
-                      0.035,
-                      CustomColors.customLightBlack,
-                      bold: true),
-                ),
-              ),
-            ],
-          ),
-          text(context, "To :", 0.04, CustomColors.customBlack),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.circle_outlined,
-                color: CustomColors.customYellow,
-                size: CustomSizes().dynamicHeight(context, 0.015),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomSizes().dynamicWidth(context, 0.05)),
-                  child: text(
-                      context,
-                      snapshot[index]["consigneeAddress"].toString(),
-                      0.035,
-                      CustomColors.customLightBlack,
-                      bold: true),
-                ),
-              ),
-            ],
-          ),
-          CustomSizes().heightBox(context, 0.02)
-        ],
-      ),
-    ),
   );
 }

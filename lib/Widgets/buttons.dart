@@ -2,6 +2,7 @@ import 'package:courierapp/Widgets/text_widget.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 Widget coloredButton(context, text, color,
     {function = "", width = "", fontSize = 0.04, fontColor = true}) {
@@ -45,14 +46,13 @@ Widget retry(context, setstate) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // LottieBuilder.asset(
-        //   "assets/retry.json",
-        //   width: dynamicWidth(context, 0.4),
-        //   repeat: false,
-        // ),
+        LottieBuilder.asset(
+          "assets/retry.json",
+          width: CustomSizes().dynamicWidth(context, 0.4),
+        ),
         CustomSizes().heightBox(context, 0.02),
         text(context, "Check your internet or try again later", 0.03,
-            CustomColors.customWhite),
+            CustomColors.customBlack),
         CustomSizes().heightBox(context, 0.1),
         coloredButton(
           context,

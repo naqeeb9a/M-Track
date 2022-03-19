@@ -120,11 +120,6 @@ class _ProfileState extends State<Profile> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 CustomSizes().heightBox(context, 0.03),
-                const Text(
-                  "Main",
-                  style: TextStyle(
-                      color: Colors.grey, fontWeight: FontWeight.bold),
-                ),
               ],
             ),
           ),

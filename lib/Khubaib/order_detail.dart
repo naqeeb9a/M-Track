@@ -1,13 +1,16 @@
-import 'package:courierapp/Khubaib/rating.dart';
-import 'package:courierapp/Khubaib/submit_order.dart';
 import 'package:courierapp/Screens/live_location.dart';
 import 'package:courierapp/Screens/login.dart';
 import 'package:courierapp/Widgets/text_widget.dart';
+import 'package:courierapp/backend/location_services.dart';
+import 'package:courierapp/backend/orders.dart';
 import 'package:courierapp/utils/app_routes.dart';
 import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetail extends StatefulWidget {
   final List snapshot;
@@ -33,7 +36,7 @@ class _OrderDetailState extends State<OrderDetail> {
     return Scaffold(
       appBar: customAppbar(
         context: context,
-        text1: "Order " + widget.snapshot[widget.index]["custRefNo"].toString(),
+        text1: "Order ID #" + widget.snapshot[widget.index]["id"].toString(),
         automaticallyImplyLeading: true,
         backgroundColor: CustomColors.customYellow,
       ),
@@ -61,81 +64,374 @@ class _OrderDetailState extends State<OrderDetail> {
                   0.04,
                   CustomColors.customBlack),
               onPressed: () async {
-                CustomRoutes().push(
-                    context,
-                    LiveLocation(
-                      lat: widget.snapshot[widget.index]["status"] == "assigned"
-                          ? widget.snapshot[widget.index]["pick_up_lat"]
-                              .toString()
-                          : widget.snapshot[widget.index]["customer_lat"]
-                              .toString(),
-                      long:
+                if (widget.snapshot[widget.index]["status"] == "assigned") {
+                  Position position =
+                      await LocationFunctionality().determinePosition();
+                  if (LocationFunctionality().calculateDistance(
+                        position.latitude,
+                        position.longitude,
+                        widget.snapshot[widget.index]["status"] == "assigned"
+                            ? widget.snapshot[widget.index]["pick_up_lat"]
+                            : widget.snapshot[widget.index]["customer_lat"],
+                        widget.snapshot[widget.index]["status"] == "assigned"
+                            ? widget.snapshot[widget.index]["pick_up_lng"]
+                            : widget.snapshot[widget.index]["customer_lng"],
+                      ) >=
+                      0.5) {
+                    if (widget.snapshot[widget.index]["status"] == "assigned") {
+                      var res = await RiderFunctionality().setOrderStatus(
+                          "update-order",
+                          widget.snapshot[widget.index]["tracking_number"],
                           widget.snapshot[widget.index]["status"] == "assigned"
-                              ? widget.snapshot[widget.index]["pick_up_lng"]
-                                  .toString()
-                              : widget.snapshot[widget.index]["customer_lng"]
-                                  .toString(),
-                      orderId: widget.snapshot[widget.index]["id"].toString(),
-                      index: widget.index,
-                      snapshot: widget.snapshot,
-                      stateChange: widget.stateChange,
-                    ));
-                _buttonController.reset();
+                              ? "processing"
+                              : "delivered-pending");
+                      if (res == false) {
+                        _buttonController.reset();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: text(
+                                context,
+                                "Check your internt or tey again",
+                                0.04,
+                                CustomColors.customWhite)));
+                      } else {
+                        _buttonController.reset();
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                        widget.stateChange();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: text(context, "Success", 0.04,
+                                CustomColors.customWhite)));
+                      }
+                    }
+                    _buttonController.reset();
+                  } else {
+                    _buttonController.reset();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: text(
+                            context,
+                            "You are not near enough to the location",
+                            0.04,
+                            CustomColors.customWhite)));
+                  }
+                } else {
+                  CustomRoutes().push(
+                      context,
+                      LiveLocation(
+                        lat: widget.snapshot[widget.index]["status"] ==
+                                "assigned"
+                            ? widget.snapshot[widget.index]["pick_up_lat"]
+                                .toString()
+                            : widget.snapshot[widget.index]["customer_lat"]
+                                .toString(),
+                        long: widget.snapshot[widget.index]["status"] ==
+                                "assigned"
+                            ? widget.snapshot[widget.index]["pick_up_lng"]
+                                .toString()
+                            : widget.snapshot[widget.index]["customer_lng"]
+                                .toString(),
+                        orderId: widget.snapshot[widget.index]["id"].toString(),
+                        index: widget.index,
+                        snapshot: widget.snapshot,
+                        stateChange: widget.stateChange,
+                      ));
+                  _buttonController.reset();
+                }
               },
               controller: _buttonController,
             ),
           ),
         ),
       ),
+
+      //Body started
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomSizes().heightBox(context, 0.05),
-            personCard(context,
-                phoneIcon: true,
-                containerColor: false,
-                name: widget.snapshot[widget.index]["consigneeName"],
-                phone: widget.snapshot[widget.index]["consigneeMobNo"]),
-            CustomSizes().heightBox(context, 0.05),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: CustomSizes().dynamicWidth(context, .05),
-              ),
-              child: text(context, "Info", 0.035, CustomColors.customGrey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomSizes().heightBox(context, 0.05),
+              text(context, "Order Details", 0.035,
+                  CustomColors.customLightBlack,
                   bold: true),
-            ),
-            CustomSizes().heightBox(context, 0.025),
-            orderBox(
-                context,
-                "Created",
-                widget.snapshot[widget.index]["created_at"]
-                    .toString()
-                    .substring(0, 10)),
-            CustomSizes().heightBox(context, 0.025),
-            orderBox(context, "Weight",
-                "Up to " + widget.snapshot[widget.index]["weight"] + "kg"),
-            CustomSizes().heightBox(context, 0.025),
-            orderBox(
-                context,
-                "Payment Method",
-                widget.snapshot[widget.index]["payment_method"] ??
-                    "Not Provided"),
-            CustomSizes().heightBox(context, 0.025),
-            orderCard(
-                context,
-                "P",
-                widget.snapshot[widget.index]["pick_up_location"].toString(),
-                widget.snapshot[widget.index]["pick_up_center_phone_number"]
-                    .toString(),
-                icon: true),
-            orderCard(
-                context,
-                "D",
-                widget.snapshot[widget.index]["consigneeAddress"],
-                widget.snapshot[widget.index]["consigneeMobNo"],
-                icon: true),
-          ],
+              CustomSizes().heightBox(context, 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  text(
+                      context,
+                      "CN :-  " +
+                          widget.snapshot[widget.index]["tracking_number"]
+                              .toString(),
+                      0.04,
+                      CustomColors.customBlack,
+                      bold: true),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: CustomSizes().dynamicWidth(context, 0.01),
+                    ),
+                    decoration: BoxDecoration(
+                      color: CustomColors.customGrey,
+                      borderRadius: BorderRadius.circular(
+                        CustomSizes().dynamicWidth(context, 0.05),
+                      ),
+                    ),
+                    child: text(
+                        context,
+                        "Order ID #" +
+                            widget.snapshot[widget.index]["id"].toString(),
+                        0.03,
+                        CustomColors.customBlack),
+                  )
+                ],
+              ),
+              CustomSizes().heightBox(context, 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  text(
+                      context,
+                      "Date : " +
+                          widget.snapshot[widget.index]["created_at"]
+                              .toString()
+                              .substring(0, 10),
+                      0.04,
+                      CustomColors.customBlack),
+                  text(
+                      context,
+                      widget.snapshot[widget.index]["payment_method"] ?? "N/A",
+                      0.04,
+                      CustomColors.customBlack),
+                ],
+              ),
+              CustomSizes().heightBox(context, 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  text(context, "Payment Method : ", 0.04,
+                      CustomColors.customBlack),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.credit_card,
+                        color: widget.snapshot[widget.index]
+                                    ["payment_method"] ==
+                                null
+                            ? CustomColors.customGrey
+                            : widget.snapshot[widget.index]["payment_method"]
+                                        .toString()
+                                        .toLowerCase() ==
+                                    "cash"
+                                ? CustomColors.customGrey
+                                : CustomColors.customBlack,
+                      ),
+                      Icon(
+                        Icons.attach_money,
+                        color: widget.snapshot[widget.index]
+                                    ["payment_method"] ==
+                                null
+                            ? CustomColors.customGrey
+                            : widget.snapshot[widget.index]["payment_method"]
+                                        .toString()
+                                        .toLowerCase() ==
+                                    "cash"
+                                ? CustomColors.customBlack
+                                : CustomColors.customGrey,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              CustomSizes().heightBox(context, 0.05),
+              Visibility(
+                visible: widget.snapshot[widget.index]["status"] ==
+                            "processing" ||
+                        widget.snapshot[widget.index]["status"] == "assigned"
+                    ? true
+                    : false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    text(context, "Contact no : ", 0.04,
+                        CustomColors.customBlack),
+                    InkWell(
+                      onTap: () async {
+                        await launch(
+                            "tel:${widget.snapshot[widget.index]["consigneeMobNo"]}");
+                      },
+                      child: const Icon(
+                        Icons.phone,
+                        color: CustomColors.customGreen,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              CustomSizes().heightBox(context, 0.05),
+              text(
+                  context,
+                  "Customer : " +
+                      widget.snapshot[widget.index]["consigneeName"]
+                          .toString()
+                          .toUpperCase(),
+                  0.04,
+                  CustomColors.customBlack,
+                  bold: true),
+              CustomSizes().heightBox(context, 0.05),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: CustomColors.customWhite,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                          offset: Offset(1, 1),
+                          blurRadius: 5,
+                          spreadRadius: 5,
+                          color: CustomColors.customGrey)
+                    ]),
+                child: Column(
+                  children: [
+                    text(context, "Pickup Location :", 0.04,
+                        CustomColors.customBlack),
+                    CustomSizes().heightBox(context, 0.05),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.circle_outlined,
+                          color: CustomColors.customYellow,
+                          size: CustomSizes().dynamicHeight(context, 0.015),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    CustomSizes().dynamicWidth(context, 0.05)),
+                            child: text(
+                                context,
+                                widget.snapshot[widget.index]
+                                        ["pick_up_location"]
+                                    .toString(),
+                                0.04,
+                                CustomColors.customLightBlack,
+                                bold: true),
+                          ),
+                        ),
+                        Visibility(
+                          visible: widget.snapshot[widget.index]["status"] ==
+                                      "processing" ||
+                                  widget.snapshot[widget.index]["status"] ==
+                                      "assigned"
+                              ? true
+                              : false,
+                          child: InkWell(
+                            onTap: () {
+                              MapsLauncher.launchCoordinates(
+                                  widget.snapshot[widget.index]["pick_up_lat"],
+                                  widget.snapshot[widget.index]["pick_up_lng"]);
+                            },
+                            child: Icon(
+                              Icons.directions,
+                              color: CustomColors.customYellow,
+                              size: CustomSizes().dynamicHeight(context, 0.03),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    CustomSizes().heightBox(context, 0.05),
+                    text(context, "Delivery Address :", 0.04,
+                        CustomColors.customBlack),
+                    CustomSizes().heightBox(context, 0.05),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.circle_outlined,
+                          color: CustomColors.customYellow,
+                          size: CustomSizes().dynamicHeight(context, 0.015),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    CustomSizes().dynamicWidth(context, 0.05)),
+                            child: text(
+                                context,
+                                widget.snapshot[widget.index]
+                                        ["consigneeAddress"]
+                                    .toString(),
+                                0.04,
+                                CustomColors.customLightBlack,
+                                bold: true),
+                          ),
+                        ),
+                        Visibility(
+                          visible: widget.snapshot[widget.index]["status"] ==
+                                      "processing" ||
+                                  widget.snapshot[widget.index]["status"] ==
+                                      "assigned"
+                              ? true
+                              : false,
+                          child: InkWell(
+                            onTap: () {
+                              MapsLauncher.launchCoordinates(
+                                  widget.snapshot[widget.index]["customer_lat"],
+                                  widget.snapshot[widget.index]
+                                      ["customer_lng"]);
+                            },
+                            child: Icon(
+                              Icons.directions,
+                              color: CustomColors.customYellow,
+                              size: CustomSizes().dynamicHeight(context, 0.03),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              CustomSizes().heightBox(context, 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  text(
+                      context, "Status :", 0.035, CustomColors.customLightBlack,
+                      bold: true),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    decoration: BoxDecoration(
+                        color: widget.snapshot[widget.index]["status"] ==
+                                    "assigned" ||
+                                widget.snapshot[widget.index]["status"] ==
+                                    "returned-pending"
+                            ? Colors.red
+                            : CustomColors.customGreen,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: text(
+                        context,
+                        widget.snapshot[widget.index]["status"] == "assigned"
+                            ? "New Courier to pick"
+                            : widget.snapshot[widget.index]["status"] ==
+                                    "processing"
+                                ? "Delivering Courier"
+                                : widget.snapshot[widget.index]["status"] ==
+                                        "returned-pending"
+                                    ? "Waiting for parcel return"
+                                    : "Waiting for approval",
+                        0.035,
+                        CustomColors.customWhite,
+                        bold: true),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
