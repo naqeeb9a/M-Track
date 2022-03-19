@@ -90,7 +90,7 @@ class _OrderDetailState extends State<OrderDetail> {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: text(
                                 context,
-                                "Check your internt or tey again",
+                                "Check your internt or try again",
                                 0.04,
                                 CustomColors.customWhite)));
                       } else {
@@ -277,123 +277,112 @@ class _OrderDetailState extends State<OrderDetail> {
                   CustomColors.customBlack,
                   bold: true),
               CustomSizes().heightBox(context, 0.05),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: CustomColors.customWhite,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                          offset: Offset(1, 1),
-                          blurRadius: 5,
-                          spreadRadius: 5,
-                          color: CustomColors.customGrey)
-                    ]),
-                child: Column(
-                  children: [
-                    text(context, "Pickup Location :", 0.04,
-                        CustomColors.customBlack),
-                    CustomSizes().heightBox(context, 0.05),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.circle_outlined,
-                          color: CustomColors.customYellow,
-                          size: CustomSizes().dynamicHeight(context, 0.015),
+              const Divider(
+                color: CustomColors.customBlack,
+              ),
+              Column(
+                children: [
+                  text(context, "Pickup Location :", 0.04,
+                      CustomColors.customBlack),
+                  CustomSizes().heightBox(context, 0.05),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        color: CustomColors.customYellow,
+                        size: CustomSizes().dynamicHeight(context, 0.015),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  CustomSizes().dynamicWidth(context, 0.05)),
+                          child: text(
+                              context,
+                              widget.snapshot[widget.index]["pick_up_location"]
+                                  .toString(),
+                              0.04,
+                              CustomColors.customLightBlack,
+                              bold: true),
                         ),
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    CustomSizes().dynamicWidth(context, 0.05)),
-                            child: text(
-                                context,
-                                widget.snapshot[widget.index]
-                                        ["pick_up_location"]
-                                    .toString(),
-                                0.04,
-                                CustomColors.customLightBlack,
-                                bold: true),
+                      ),
+                      Visibility(
+                        visible: widget.snapshot[widget.index]["status"] ==
+                                    "processing" ||
+                                widget.snapshot[widget.index]["status"] ==
+                                    "assigned"
+                            ? true
+                            : false,
+                        child: InkWell(
+                          onTap: () {
+                            MapsLauncher.launchCoordinates(
+                                widget.snapshot[widget.index]["pick_up_lat"],
+                                widget.snapshot[widget.index]["pick_up_lng"]);
+                          },
+                          child: Icon(
+                            Icons.directions,
+                            color: CustomColors.customYellow,
+                            size: CustomSizes().dynamicHeight(context, 0.03),
                           ),
                         ),
-                        Visibility(
-                          visible: widget.snapshot[widget.index]["status"] ==
-                                      "processing" ||
-                                  widget.snapshot[widget.index]["status"] ==
-                                      "assigned"
-                              ? true
-                              : false,
-                          child: InkWell(
-                            onTap: () {
-                              MapsLauncher.launchCoordinates(
-                                  widget.snapshot[widget.index]["pick_up_lat"],
-                                  widget.snapshot[widget.index]["pick_up_lng"]);
-                            },
-                            child: Icon(
-                              Icons.directions,
-                              color: CustomColors.customYellow,
-                              size: CustomSizes().dynamicHeight(context, 0.03),
-                            ),
+                      ),
+                    ],
+                  ),
+                  CustomSizes().heightBox(context, 0.05),
+                  text(context, "Delivery Address :", 0.04,
+                      CustomColors.customBlack),
+                  CustomSizes().heightBox(context, 0.05),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        color: CustomColors.customYellow,
+                        size: CustomSizes().dynamicHeight(context, 0.015),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  CustomSizes().dynamicWidth(context, 0.05)),
+                          child: text(
+                              context,
+                              widget.snapshot[widget.index]["consigneeAddress"]
+                                  .toString(),
+                              0.04,
+                              CustomColors.customLightBlack,
+                              bold: true),
+                        ),
+                      ),
+                      Visibility(
+                        visible: widget.snapshot[widget.index]["status"] ==
+                                    "processing" ||
+                                widget.snapshot[widget.index]["status"] ==
+                                    "assigned"
+                            ? true
+                            : false,
+                        child: InkWell(
+                          onTap: () {
+                            MapsLauncher.launchCoordinates(
+                                widget.snapshot[widget.index]["customer_lat"],
+                                widget.snapshot[widget.index]["customer_lng"]);
+                          },
+                          child: Icon(
+                            Icons.directions,
+                            color: CustomColors.customYellow,
+                            size: CustomSizes().dynamicHeight(context, 0.03),
                           ),
                         ),
-                      ],
-                    ),
-                    CustomSizes().heightBox(context, 0.05),
-                    text(context, "Delivery Address :", 0.04,
-                        CustomColors.customBlack),
-                    CustomSizes().heightBox(context, 0.05),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.circle_outlined,
-                          color: CustomColors.customYellow,
-                          size: CustomSizes().dynamicHeight(context, 0.015),
-                        ),
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    CustomSizes().dynamicWidth(context, 0.05)),
-                            child: text(
-                                context,
-                                widget.snapshot[widget.index]
-                                        ["consigneeAddress"]
-                                    .toString(),
-                                0.04,
-                                CustomColors.customLightBlack,
-                                bold: true),
-                          ),
-                        ),
-                        Visibility(
-                          visible: widget.snapshot[widget.index]["status"] ==
-                                      "processing" ||
-                                  widget.snapshot[widget.index]["status"] ==
-                                      "assigned"
-                              ? true
-                              : false,
-                          child: InkWell(
-                            onTap: () {
-                              MapsLauncher.launchCoordinates(
-                                  widget.snapshot[widget.index]["customer_lat"],
-                                  widget.snapshot[widget.index]
-                                      ["customer_lng"]);
-                            },
-                            child: Icon(
-                              Icons.directions,
-                              color: CustomColors.customYellow,
-                              size: CustomSizes().dynamicHeight(context, 0.03),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const Divider(
+                color: CustomColors.customBlack,
               ),
               CustomSizes().heightBox(context, 0.05),
               Row(

@@ -298,10 +298,7 @@ Widget activeOrderCard(BuildContext context, snapshot, index, setState) {
                 children: [
                   text(
                       context,
-                      "Name : " +
-                          snapshot[index]["consigneeName"]
-                              .toString()
-                              .toUpperCase(),
+                      snapshot[index]["consigneeName"].toString().toUpperCase(),
                       0.04,
                       CustomColors.customBlack,
                       bold: true),
@@ -323,68 +320,41 @@ Widget activeOrderCard(BuildContext context, snapshot, index, setState) {
                   )
                 ],
               ),
+              const Divider(
+                color: CustomColors.customBlack,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              text(context, "Pickup Location :", 0.04, CustomColors.customBlack,
+                  bold: true),
+              text(
+                context,
+                snapshot[index]["pick_up_location"].toString(),
+                0.05,
+                CustomColors.customBlack,
+              ),
               const SizedBox(
                 height: 5,
               ),
               text(
-                  context, "Pickup Location :", 0.04, CustomColors.customBlack),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.circle_outlined,
-                    color: CustomColors.customYellow,
-                    size: CustomSizes().dynamicHeight(context, 0.015),
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              CustomSizes().dynamicWidth(context, 0.05)),
-                      child: text(
-                          context,
-                          snapshot[index]["pick_up_location"].toString(),
-                          0.035,
-                          CustomColors.customLightBlack,
-                          bold: true),
-                    ),
-                  ),
-                ],
-              ),
+                  context, "Delivery Address :", 0.04, CustomColors.customBlack,
+                  bold: true),
               const SizedBox(
                 height: 5,
               ),
-              text(context, "Delivery Address :", 0.04,
-                  CustomColors.customBlack),
-              const SizedBox(
-                height: 5,
+              text(
+                context,
+                snapshot[index]["consigneeAddress"].toString(),
+                0.05,
+                CustomColors.customBlack,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.circle_outlined,
-                    color: CustomColors.customYellow,
-                    size: CustomSizes().dynamicHeight(context, 0.015),
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              CustomSizes().dynamicWidth(context, 0.05)),
-                      child: text(
-                          context,
-                          snapshot[index]["consigneeAddress"].toString(),
-                          0.035,
-                          CustomColors.customLightBlack,
-                          bold: true),
-                    ),
-                  ),
-                ],
+              const Divider(
+                color: CustomColors.customBlack,
               ),
               text(
                   context,
-                  "COD Amount : PKR. " +
+                  "Amount : PKR. " +
                       double.parse(snapshot[index]["codAmount"].toString())
                           .toStringAsFixed(0),
                   0.04,
