@@ -139,14 +139,14 @@ Widget completedOrderCard(
                 child: text(
                     context,
                     "Order no #" + snapshot[index]["custRefNo"].toString(),
-                    0.03,
+                    0.04,
                     CustomColors.customBlack),
               )
             ],
           ),
           text(
               context,
-              "\$" +
+              "PKR. " +
                   double.parse(snapshot[index]["codAmount"]).toStringAsFixed(0),
               0.04,
               CustomColors.customBlack,

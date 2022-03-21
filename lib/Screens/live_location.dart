@@ -157,13 +157,72 @@ class _LiveLocationState extends State<LiveLocation>
                                           ["customer_lng"],
                                 ) >=
                                 0.5) {
-                              CustomRoutes().push(
-                                  context,
-                                  DigitalSignature(
-                                    snapshot: widget.snapshot,
-                                    index: widget.index,
-                                    stateChange: widget.stateChange,
-                                  ));
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          text(context, "Slip no :", 0.04,
+                                              CustomColors.customBlack),
+                                          InkWell(
+                                              onTap: () {
+                                                _buttonController1.reset();
+                                                CustomRoutes().pop(context);
+                                              },
+                                              child: const Icon(Icons.close))
+                                        ],
+                                      ),
+                                      content: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            RegisterInputField(
+                                              context: context,
+                                              text1: "Enter slip no :",
+                                              hintText:
+                                                  "Write the slip no to complete the delivery",
+                                              controller: _editingController,
+                                              maxLines: 5,
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            coloredButton(context, "Submit",
+                                                CustomColors.customYellow,
+                                                function: () async {
+                                              if (_editingController
+                                                  .text.isEmpty) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: text(
+                                                            context,
+                                                            "Field can't be empty",
+                                                            0.04,
+                                                            CustomColors
+                                                                .customWhite)));
+                                              } else {
+                                                CustomRoutes().pop(context);
+                                                CustomRoutes().push(
+                                                    context,
+                                                    DigitalSignature(
+                                                      snapshot: widget.snapshot,
+                                                      index: widget.index,
+                                                      stateChange:
+                                                          widget.stateChange,
+                                                    ));
+                                                _buttonController1.reset();
+                                              }
+                                            })
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
                             }
                             _buttonController.reset();
                           }),

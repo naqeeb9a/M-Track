@@ -34,6 +34,7 @@ class _OrderDetailState extends State<OrderDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.customYellow.withOpacity(0.2),
       appBar: customAppbar(
         context: context,
         text1: "Order ID #" + widget.snapshot[widget.index]["id"].toString(),
@@ -144,9 +145,21 @@ class _OrderDetailState extends State<OrderDetail> {
 
       //Body started
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          margin: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+              color: CustomColors.customWhite,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    offset: const Offset(1, 1),
+                    color: CustomColors.customBlack.withOpacity(0.2),
+                    spreadRadius: 5,
+                    blurRadius: 5),
+              ]),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomSizes().heightBox(context, 0.05),
@@ -179,7 +192,7 @@ class _OrderDetailState extends State<OrderDetail> {
                         context,
                         "Order ID #" +
                             widget.snapshot[widget.index]["id"].toString(),
-                        0.03,
+                        0.04,
                         CustomColors.customBlack),
                   )
                 ],
@@ -194,12 +207,12 @@ class _OrderDetailState extends State<OrderDetail> {
                           widget.snapshot[widget.index]["created_at"]
                               .toString()
                               .substring(0, 10),
-                      0.04,
+                      0.042,
                       CustomColors.customBlack),
                   text(
                       context,
                       widget.snapshot[widget.index]["payment_method"] ?? "N/A",
-                      0.04,
+                      0.042,
                       CustomColors.customBlack),
                 ],
               ),
@@ -207,7 +220,7 @@ class _OrderDetailState extends State<OrderDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  text(context, "Payment Method : ", 0.04,
+                  text(context, "Payment Method : ", 0.042,
                       CustomColors.customBlack),
                   Row(
                     children: [
@@ -222,7 +235,10 @@ class _OrderDetailState extends State<OrderDetail> {
                                         .toLowerCase() ==
                                     "cash"
                                 ? CustomColors.customGrey
-                                : CustomColors.customBlack,
+                                : CustomColors.customGreen,
+                      ),
+                      const SizedBox(
+                        width: 10,
                       ),
                       Icon(
                         Icons.attach_money,
@@ -251,7 +267,7 @@ class _OrderDetailState extends State<OrderDetail> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    text(context, "Contact no : ", 0.04,
+                    text(context, "Contact no : ", 0.042,
                         CustomColors.customBlack),
                     InkWell(
                       onTap: () async {
@@ -273,7 +289,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       widget.snapshot[widget.index]["consigneeName"]
                           .toString()
                           .toUpperCase(),
-                  0.04,
+                  0.042,
                   CustomColors.customBlack,
                   bold: true),
               CustomSizes().heightBox(context, 0.05),
@@ -282,7 +298,7 @@ class _OrderDetailState extends State<OrderDetail> {
               ),
               Column(
                 children: [
-                  text(context, "Pickup Location :", 0.04,
+                  text(context, "Pickup Location :", 0.042,
                       CustomColors.customBlack),
                   CustomSizes().heightBox(context, 0.05),
                   Row(
@@ -303,7 +319,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               context,
                               widget.snapshot[widget.index]["pick_up_location"]
                                   .toString(),
-                              0.04,
+                              0.042,
                               CustomColors.customLightBlack,
                               bold: true),
                         ),
@@ -331,7 +347,7 @@ class _OrderDetailState extends State<OrderDetail> {
                     ],
                   ),
                   CustomSizes().heightBox(context, 0.05),
-                  text(context, "Delivery Address :", 0.04,
+                  text(context, "Delivery Address :", 0.042,
                       CustomColors.customBlack),
                   CustomSizes().heightBox(context, 0.05),
                   Row(
@@ -352,7 +368,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               context,
                               widget.snapshot[widget.index]["consigneeAddress"]
                                   .toString(),
-                              0.04,
+                              0.042,
                               CustomColors.customLightBlack,
                               bold: true),
                         ),
@@ -388,8 +404,7 @@ class _OrderDetailState extends State<OrderDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  text(
-                      context, "Status :", 0.035, CustomColors.customLightBlack,
+                  text(context, "Status :", 0.04, CustomColors.customLightBlack,
                       bold: true),
                   Container(
                     padding:
@@ -412,9 +427,16 @@ class _OrderDetailState extends State<OrderDetail> {
                                 : widget.snapshot[widget.index]["status"] ==
                                         "returned-pending"
                                     ? "Waiting for parcel return"
-                                    : "Waiting for approval",
+                                    : widget.snapshot[widget.index]["status"] ==
+                                            "delivered"
+                                        ? "Delivered"
+                                        : "Waiting for approval",
                         0.035,
-                        CustomColors.customWhite,
+                        widget.snapshot[widget.index]["status"] == "assigned" ||
+                                widget.snapshot[widget.index]["status"] ==
+                                    "returned-pending"
+                            ? CustomColors.customWhite
+                            : CustomColors.customLightBlack,
                         bold: true),
                   ),
                 ],

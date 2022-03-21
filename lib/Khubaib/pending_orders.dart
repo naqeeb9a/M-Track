@@ -7,6 +7,7 @@ import 'package:courierapp/utils/config.dart';
 import 'package:courierapp/utils/dynamic_sizes.dart';
 import 'package:flutter/material.dart';
 
+import '../Widgets/search_widget.dart';
 import 'active_order.dart';
 
 class PendingOrders extends StatefulWidget {
@@ -71,7 +72,7 @@ Widget activeOrder(context, setState) {
                           badgeContent: text(
                               context,
                               newOrders.length.toString(),
-                              0.03,
+                              0.04,
                               CustomColors.customWhite),
                           animationType: BadgeAnimationType.scale,
                           child: ChoiceChip(
@@ -79,7 +80,7 @@ Widget activeOrder(context, setState) {
                               onSelected: (value) => changeState(() {
                                     isSelected1 = value;
                                   }),
-                              label: text(context, "Delivered Pending", 0.03,
+                              label: text(context, "Delivered Pending", 0.035,
                                   Colors.black),
                               selected: isSelected1),
                         ),
@@ -90,7 +91,7 @@ Widget activeOrder(context, setState) {
                           badgeContent: text(
                               context,
                               pickedOrders.length.toString(),
-                              0.03,
+                              0.04,
                               CustomColors.customWhite),
                           animationType: BadgeAnimationType.scale,
                           child: ChoiceChip(
@@ -98,7 +99,7 @@ Widget activeOrder(context, setState) {
                                     isSelected2 = value;
                                   }),
                               selectedColor: CustomColors.customYellow,
-                              label: text(context, "Returned Pending", 0.03,
+                              label: text(context, "Returned Pending", 0.035,
                                   Colors.black),
                               selected: isSelected2),
                         ),
@@ -115,29 +116,48 @@ Widget activeOrder(context, setState) {
                     const SizedBox(
                       height: 10,
                     ),
+                    InkWell(
+                        onTap: () {
+                          showSearch(
+                              context: context,
+                              delegate: CustomSearchDeligate(
+                                  snapshot.data, isSelected1, isSelected2, () {
+                                setState(() {});
+                              }, newOrders, pickedOrders));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal:
+                                CustomSizes().dynamicWidth(context, 0.05),
+                            vertical:
+                                CustomSizes().dynamicHeight(context, 0.01),
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: CustomColors.customWhite,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Icon(Icons.search),
+                              text(context, "Search CN", 0.03,
+                                  CustomColors.customBlack),
+                              const Icon(Icons.clear),
+                            ],
+                          ),
+                        )),
                     Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.symmetric(
-                          vertical: CustomSizes().dynamicHeight(context, 0),
-                        ),
-                        itemCount: isSelected1 == true && isSelected2 == false
-                            ? newOrders.length
-                            : isSelected2 == true && isSelected1 == false
-                                ? pickedOrders.length
-                                : snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return activeOrderCard(
-                              context,
-                              isSelected1 == true && isSelected2 == false
-                                  ? newOrders
-                                  : isSelected2 == true && isSelected1 == false
-                                      ? pickedOrders
-                                      : snapshot.data,
-                              index,
-                              setState);
+                      child: ActiveOrderList(
+                        isSelected1: isSelected1,
+                        isSelected2: isSelected2,
+                        newOrders: newOrders,
+                        pickedOrders: pickedOrders,
+                        snapshot: snapshot.data,
+                        setState: () {
+                          setState(() {});
                         },
                       ),
-                    ),
+                    )
                   ],
                 );
               });

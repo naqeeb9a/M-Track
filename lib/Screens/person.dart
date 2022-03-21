@@ -50,12 +50,19 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         body: SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Image.asset(
+            "assets/mtrack.png",
+            width: CustomSizes().dynamicWidth(context, 0.3),
+          ),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: CustomSizes().dynamicWidth(context, 0.05),
-                vertical: CustomSizes().dynamicWidth(context, 0.05)),
+                vertical: CustomSizes().dynamicWidth(context, 0.02)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -111,13 +118,6 @@ class _ProfileState extends State<Profile> {
                     }
                   },
                   value: isActive,
-                ),
-                CustomSizes().heightBox(context, 0.01),
-                Text(
-                  riderData.isEmpty
-                      ? "...."
-                      : riderData["data"]["phone"].toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 CustomSizes().heightBox(context, 0.03),
               ],
